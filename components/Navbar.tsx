@@ -14,7 +14,7 @@ export default function Navbar() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 md:px-10">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={34} />
-            <span className="sora text-sm font-bold tracking-[0.15em] text-white">UXTRAVELERZ</span>
+            <span className="sora text-sm font-bold tracking-[0.15em] text-white">LUXTRAVELERZ</span>
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">

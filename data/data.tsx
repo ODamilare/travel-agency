@@ -35,14 +35,12 @@ export const FEATURES = [
   { icon: <HiOutlineClock size={24} />,       title: "Book now, pay later", desc: "Reserve your stay today and pay when you arrive." },
   { icon: <HiOutlineSparkles size={24} />,    title: "Exclusive deals",     desc: "Members-only rates on flights, hotels and experiences." },
 ];
-
 export const HOTELS = [
-  { city: "Dubai",    sub: "1,250 Hotels", img: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=700&q=80" },
-  { city: "Paris",    sub: "2,100 Hotels", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=700&q=80" },
-  { city: "Lagos",    sub: "870 Hotels",   img: "https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?w=700&q=80" },
-  { city: "New York", sub: "3,400 Hotels", img: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=700&q=80" },
+  { city: "Dubai",    sub: "1,250 Hotels", img: "/images/dubai.jpg" },
+  { city: "Paris",    sub: "2,100 Hotels", img: "/images/paris.jpg" },
+  { city: "Miami",    sub: "870 Hotels",   img: "/images/miami.jpg" },
+  { city: "New York", sub: "3,400 Hotels", img: "/images/newyork.jpg" },
 ];
-
 export const OFFERS = [
   { title: "Seize the moment",  desc: "Save 15% or more when you book and stay before October 1 2024",        cta: "Find Getaway Deals",    img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" },
   { title: "Genius discounts",  desc: "Sign in and unlock up to 20% off on select hotels — members only",     cta: "Sign In to Save",       img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&q=80" },
