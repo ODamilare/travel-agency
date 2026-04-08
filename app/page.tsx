@@ -66,7 +66,7 @@ const SplashPage: NextPage = () => {
         <div className="flex flex-col items-center pt-4">
           <Logo size={56} />
           <p className="mt-2 text-base font-bold tracking-[0.18em] text-white">
-            UXTRAVELERZ
+            LUXTRAVELERZ
           </p>
           <p className="mt-2 max-w-[240px] text-center text-sm leading-relaxed text-white/80">
             Your journey to the world's most hidden gems starts here
