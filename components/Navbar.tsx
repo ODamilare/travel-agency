@@ -162,23 +162,27 @@ export default function Navbar() {
           <div className="border-t border-[#6c47ff]/10 bg-white px-5 py-5 md:hidden">
 
             {/* PROFILE SECTION */}
-            {session && (
-              <div className="flex items-center gap-3 mb-4 p-3 rounded-xl border border-gray-200">
-                <img
-                  src={getRandomAvatar(session.user?.email || "user")}
-                  className="h-10 w-10 rounded-full object-cover"
-                  alt="profile"
-                />
-                <div>
-                  <p className="text-sm font-semibold text-black">
-                    {session.user?.name}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    {session.user?.email}
-                  </p>
-                </div>
-              </div>
-            )}
+       {session && (
+  <Link
+    href="/profile"
+    className="flex items-center gap-3 mb-4 p-3 rounded-xl border border-gray-200 active:scale-[0.98] transition"
+  >
+    <img
+      src={getRandomAvatar(session.user?.email || "user")}
+      className="h-10 w-10 rounded-full object-cover"
+      alt="profile"
+    />
+
+    <div>
+      <p className="text-sm font-semibold text-black">
+        {session.user?.name}
+      </p>
+      <p className="text-xs text-gray-500">
+        {session.user?.email}
+      </p>
+    </div>
+  </Link>
+)}
 
             {NAV_LINKS.map((l) => (
               <Link key={l} href="#" className="block py-2 text-[#6c47ff] text-base font-medium">
