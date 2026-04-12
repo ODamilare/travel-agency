@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-
+import RegisterModal from "@/components/RegisterModal";
 const IMAGES = [
   "/images/hero-bg.jpg",
   "/images/hero-bg-2.jpg",
