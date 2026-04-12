@@ -12,7 +12,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   const link = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`;
 
   await transport.sendMail({
-    from: "LuxTravelerz <no-reply@lux.com>",
+    from: "oluwashanud101@gmail.com",
     to: email,
     subject: "Verify your email",
     html: `
