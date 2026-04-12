@@ -38,7 +38,9 @@ export const authOptions: AuthOptions = {
           credentials.password,
           user.password
         );
-
+if (!user.emailVerified) {
+  throw new Error("Please verify your email first");
+}
         if (!isValid) return null;
 
         // ✅ Return clean object (IMPORTANT)

@@ -36,7 +36,7 @@ export default function LoginPage() {
     });
 
     if (!res?.ok) {
-      throw new Error("Invalid email or password");
+     throw new Error(res?.error || "Login failed");
     }
 
     toast.success("Login successful!");
@@ -118,7 +118,7 @@ export default function LoginPage() {
 
           {/* Google Login */}
           <button
-            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            onClick={() => signIn("google", { callbackUrl: "/home" })}
             className="mt-4 w-full flex items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white py-3 text-sm font-medium text-gray-700 shadow-sm transition hover:shadow-md hover:bg-gray-50 active:scale-[0.98]"
           >
             <svg width="18" height="18" viewBox="0 0 48 48">

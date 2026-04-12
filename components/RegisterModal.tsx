@@ -29,39 +29,41 @@ export default function RegisterModal({ open, onClose }: RegisterModalProps) {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+  try {
+    const res = await fetch("/api/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
 
-      const data = await res.json();
+    const text = await res.text();
+    const data = text ? JSON.parse(text) : {};
 
-      if (!res.ok) {
-        throw new Error(data?.error || "Failed to create account");
-      }
-
-      toast.success("Account created! Redirecting to login...");
-
-      onClose();
-
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 1500);
-    } catch (err: any) {
-      console.error(err.message);
-      toast.error(err.message);
-    } finally {
-      setLoading(false);
+    if (!res.ok) {
+      throw new Error(data?.error || "Failed to create account");
     }
-  };
+
+    toast.success("Account created! Check your email.");
+
+    onClose();
+
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 1500);
+
+  } catch (err: any) {
+    console.error(err.message);
+    toast.error(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md px-4">
