@@ -11,7 +11,7 @@ export default function Hero() {
       }}
     >
       {/* gradient overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#6c47ff]/50 via-[#9b72ff]/60 to-[#8a5ec2]/70"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#6c47ff]/50 via-[#9b72ff]/90 to-[#8a5ec2]/70"></div>
 
       {/* decorative shapes */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-white/5" />

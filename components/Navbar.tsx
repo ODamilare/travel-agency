@@ -2,48 +2,225 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { MdMenu, MdClose } from "react-icons/md";
+import {
+  MdMenu,
+  MdClose,
+  MdKeyboardArrowDown,
+  MdLuggage,
+  MdPerson,
+  MdBook,
+  MdMessage,
+  MdSettings,
+  MdLogout,
+} from "react-icons/md";
+
+import { useSession, signOut } from "next-auth/react";
+import { getRandomAvatar } from "@/lib/avatar";
+
 import Logo from "./Logo";
 import { NAV_LINKS } from "@/data/data";
+import RegisterModal from "./RegisterModal";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openRegister, setOpenRegister] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+
+  const { data: session } = useSession();
 
   return (
-   <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#6c47ff]/96 backdrop-blur-lg">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5 md:px-10">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Logo size={34} />
-            <span className="sora text-sm font-bold tracking-[0.15em] text-white">LUXTRAVELERZ</span>
+    <>
+      <nav className="sticky top-0 z-50 bg-white backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-10">
+
+          {/* Logo */}
+          <Link href="/home" className="flex items-center gap-2.5">
+            <Logo size={36} />
+
+            <span className="sora text-lg font-extrabold tracking-[0.10em] text-[#6c47ff]">
+              LUXTRAVELERZ
+            </span>
           </Link>
 
+          {/* Desktop Links */}
           <div className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((l) => (
-              <Link key={l} href="#" className="nav-link text-[13px] font-medium text-white/80 transition hover:text-white">{l}</Link>
+              <Link
+                key={l}
+                href="#"
+                className="text-sm font-medium text-[#6c47ff] hover:text-[#5333ff] transition-colors duration-200"
+              >
+                {l}
+              </Link>
             ))}
           </div>
 
+          {/* AUTH SECTION */}
           <div className="hidden items-center gap-3 md:flex">
-            <Link href="/login" className="rounded-full border border-white/30 px-5 py-2 text-[13px] font-medium text-white transition hover:bg-white/10">Sign In</Link>
-            <Link href="/register" className="rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#6c47ff] transition hover:bg-white/90 hover:shadow-lg">Register</Link>
+
+            {!session ? (
+              <>
+                <Link
+                  href="/login"
+                  className="rounded-full border border-[#6c47ff]/40 px-5 py-2 text-[#6c47ff] hover:bg-[#6c47ff]/10 transition"
+                >
+                  Sign In
+                </Link>
+
+                <button
+                  onClick={() => setOpenRegister(true)}
+                  className="rounded-full bg-[#6c47ff] px-5 py-2 text-white font-semibold hover:opacity-90 transition"
+                >
+                  Register
+                </button>
+              </>
+            ) : (
+              <div className="relative">
+
+                {/* PROFILE BUTTON */}
+                <div
+                  onClick={() => setOpenProfile((v) => !v)}
+                  className="flex items-center gap-2 rounded-full bg-[#6c47ff]/10 px-3 py-1.5 cursor-pointer hover:bg-[#6c47ff]/20 transition"
+                >
+                  <img
+                    src={getRandomAvatar(session.user?.email || "user")}
+                    alt="profile"
+                    className="h-9 w-9 rounded-full object-cover border border-[#6c47ff]/30"
+                  />
+
+                  <span className="text-sm text-[#6c47ff] font-medium max-w-[120px] truncate">
+                    {session.user?.name || "User"}
+                  </span>
+
+                  <MdKeyboardArrowDown className="text-[#6c47ff]" size={18} />
+                </div>
+
+                {/* DROPDOWN (DESKTOP) */}
+                {openProfile && (
+                  <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-white shadow-2xl overflow-hidden border border-[#6c47ff]/20">
+
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <p className="text-sm font-semibold text-black">
+                        {session.user?.name || "User"}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {session.user?.email}
+                      </p>
+                    </div>
+
+                    <div className="py-2">
+                      <Link href="/trips" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100">
+                        <MdLuggage size={18} />
+                        My Trips
+                      </Link>
+
+                      <Link href="/profile" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100">
+                        <MdPerson size={18} />
+                        Profile
+                      </Link>
+
+                      <Link href="/bookings" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100">
+                        <MdBook size={18} />
+                        Bookings
+                      </Link>
+
+                      <Link href="/messages" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100">
+                        <MdMessage size={18} />
+                        Messages
+                      </Link>
+
+                      <Link href="/account" className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100">
+                        <MdSettings size={18} />
+                        Account Info
+                      </Link>
+                    </div>
+
+                    <button
+                      onClick={() => signOut()}
+                      className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 border-t"
+                    >
+                      <MdLogout size={18} />
+                      Sign out
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
-          <button onClick={() => setMobileOpen((v) => !v)} className="text-white md:hidden">
-            {mobileOpen ? <MdClose size={26} /> : <MdMenu size={26} />}
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setMobileOpen((v) => !v)}
+            className="text-[#6c47ff] md:hidden"
+          >
+            {mobileOpen ? <MdClose size={28} /> : <MdMenu size={28} />}
           </button>
         </div>
 
+        {/* MOBILE MENU */}
         {mobileOpen && (
-          <div className="border-t border-white/10 bg-[#5a38e0] px-5 py-5 md:hidden">
+          <div className="border-t border-[#6c47ff]/10 bg-white px-5 py-5 md:hidden">
+
+            {/* PROFILE SECTION */}
+            {session && (
+              <div className="flex items-center gap-3 mb-4 p-3 rounded-xl border border-gray-200">
+                <img
+                  src={getRandomAvatar(session.user?.email || "user")}
+                  className="h-10 w-10 rounded-full object-cover"
+                  alt="profile"
+                />
+                <div>
+                  <p className="text-sm font-semibold text-black">
+                    {session.user?.name}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {session.user?.email}
+                  </p>
+                </div>
+              </div>
+            )}
+
             {NAV_LINKS.map((l) => (
-              <Link key={l} href="#" className="block py-2.5 text-sm font-medium text-white/85 transition hover:text-white">{l}</Link>
+              <Link key={l} href="#" className="block py-2 text-[#6c47ff] text-base font-medium">
+                {l}
+              </Link>
             ))}
+
             <div className="mt-5 flex gap-3">
-              <Link href="/login"    className="flex-1 rounded-full border border-white/30 py-3 text-center text-sm text-white">Sign In</Link>
-              <Link href="/register" className="flex-1 rounded-full bg-white py-3 text-center text-sm font-bold text-[#6c47ff]">Register</Link>
+
+              {!session ? (
+                <>
+                  <Link
+                    href="/login"
+                    className="flex-1 rounded-full border border-[#6c47ff] py-3 text-center text-[#6c47ff]"
+                  >
+                    Sign In
+                  </Link>
+
+                  <button
+                    onClick={() => setOpenRegister(true)}
+                    className="flex-1 rounded-full bg-[#6c47ff] py-3 text-white font-semibold"
+                  >
+                    Register
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => signOut()}
+                  className="w-full rounded-full bg-purple-500 py-3 text-white"
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         )}
       </nav>
+
+      <RegisterModal
+        open={openRegister}
+        onClose={() => setOpenRegister(false)}
+      />
+    </>
   );
 }

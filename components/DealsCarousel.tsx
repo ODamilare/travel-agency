@@ -3,12 +3,10 @@
 import { useRef } from "react";
 import { DEALS } from "@/data/data";
 
-import { MdFlight, MdHotel, MdDirectionsCar, MdRestaurant, MdShoppingCart, MdOutlineLocalTaxi, MdChevronLeft, MdChevronRight, MdMenu, MdClose, MdKeyboardArrowDown } from "react-icons/md";
-import { FaTwitter, FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import { MdFlight, MdChevronLeft, MdChevronRight } from "react-icons/md";
+
 import { HiOutlineShieldCheck, HiOutlineClock, HiOutlineGlobeAlt, HiOutlineSparkles } from "react-icons/hi2";
-import { BsPeopleFill } from "react-icons/bs";
-import { RiFlightTakeoffLine } from "react-icons/ri";
-import { TbActivityHeartbeat } from "react-icons/tb";
+
 export default function DealsCarousel() {
    const carouselRef = useRef<HTMLDivElement>(null);
 

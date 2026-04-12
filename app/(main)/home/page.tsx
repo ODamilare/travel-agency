@@ -10,7 +10,7 @@ import Offers from "@/components/Offers";
 import { OFFERS } from "@/data/data"; // make sure OFFERS is imported
 import PopularHotels from "@/components/PopularHotels";
 import { HOTELS } from "@/data/data";
-
+import SearchBar from "@/components/searchbar";
 
 /* react-icons */
 import { MdFlight, MdHotel, MdDirectionsCar, MdRestaurant, MdShoppingCart, MdOutlineLocalTaxi, MdChevronLeft, MdChevronRight, MdMenu, MdClose, MdKeyboardArrowDown } from "react-icons/md";
@@ -21,7 +21,7 @@ import { RiFlightTakeoffLine } from "react-icons/ri";
 import { TbActivityHeartbeat } from "react-icons/tb";
 
 /* ─── Data ─────────────────────────────────── */
-const NAV_LINKS = ["Flights", "Hotels", "Activities", "Rides", "Deals"];
+
 
 const CATEGORIES = [
   { label: "Flight",     icon: <RiFlightTakeoffLine size={20} /> },
@@ -97,14 +97,12 @@ export default function HomePage() {
         .lift { transition: transform .22s ease, box-shadow .22s ease; }
         .lift:hover { transform: translateY(-5px); box-shadow: 0 24px 52px rgba(108,71,255,.14); }
         .faq-body { overflow: hidden; transition: max-height .35s ease, opacity .35s ease; }
-        .nav-link { position: relative; }
-        .nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1.5px; background:#ffd166; transition: width .2s; }
-        .nav-link:hover::after { width:100%; }
+      
       `}</style>
 
       {/* ══ NAVBAR ══════════════════════════════ */}
-      <Navbar />        
-
+       
+<SearchBar />
       {/* ══ HERO ════════════════════════════════ */}
    <Hero />
       {/* ══ FLIGHT DEALS CAROUSEL ═══════════════ */}
