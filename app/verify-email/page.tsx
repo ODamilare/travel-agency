@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { MdCheckCircle, MdError, MdHourglassEmpty } from "react-icons/md";
 import Logo from "@/components/Logo";
-
+import Link from "next/link";
 export default function VerifyEmail() {
   const params = useSearchParams();
   const router = useRouter();
@@ -15,10 +15,13 @@ export default function VerifyEmail() {
   >("loading");
 
   useEffect(() => {
-    const verify = async () => {
+    const verifyEmail = async () => {
       try {
         const res = await fetch("/api/verify-email", {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ token }),
         });
 
@@ -26,16 +29,17 @@ export default function VerifyEmail() {
 
         setStatus("success");
 
-        // redirect after success
+        // redirect to login after success
         setTimeout(() => {
           router.push("/login");
-        }, 2500);
+        }, 2000);
+
       } catch {
         setStatus("error");
       }
     };
 
-    if (token) verify();
+    if (token) verifyEmail();
     else setStatus("error");
   }, [token, router]);
 
@@ -43,59 +47,62 @@ export default function VerifyEmail() {
     <div className="min-h-screen flex items-center justify-center bg-[#f9f9ff] px-4">
       <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden">
 
-        {/* Top Gradient */}
         <div className="h-2 w-full bg-gradient-to-r from-[#6c47ff] via-[#9b72ff] to-[#ffd166]" />
 
         <div className="p-8 text-center">
 
-          <Logo size={40} />
+         <Link href="/home" className="flex items-center">
+  <img
+    src="/logo.png"
+    alt="Logo"
+    className="h-20 w-30 md:h-24 md:w-34 lg:h-28 lg:w-38 object-contain"
+  />
+</Link>
 
-          {/* CONTENT */}
           <div className="mt-6 flex flex-col items-center">
 
-            {/* ICON */}
             {status === "loading" && (
-              <MdHourglassEmpty className="text-[#6c47ff] animate-pulse" size={48} />
+              <>
+                <MdHourglassEmpty size={48} className="text-[#6c47ff] animate-pulse" />
+                <h2 className="mt-4 font-bold">Verifying email...</h2>
+              </>
             )}
 
             {status === "success" && (
-              <MdCheckCircle className="text-green-500" size={52} />
+              <>
+                <MdCheckCircle size={52} className="text-green-500" />
+                <h2 className="mt-4 font-bold text-xl">
+                  Email Verified 🎉
+                </h2>
+                <p className="text-sm text-gray-500 mt-2">
+                  Your account is ready. Redirecting to login...
+                </p>
+              </>
             )}
 
             {status === "error" && (
-              <MdError className="text-red-500" size={52} />
+              <>
+                <MdError size={52} className="text-red-500" />
+                <h2 className="mt-4 font-bold text-xl">
+                  Verification Failed
+                </h2>
+                <p className="text-sm text-gray-500 mt-2">
+                  This link is invalid or expired.
+                </p>
+
+                <button
+                  onClick={() => router.push("/login")}
+                  className="mt-6 px-6 py-3 rounded-xl text-white font-semibold"
+                  style={{
+                    background:
+                      "linear-gradient(135deg,#6c47ff,#9b72ff)",
+                  }}
+                >
+                  Go to Login
+                </button>
+              </>
             )}
 
-            {/* TEXT */}
-            <h2 className="mt-4 text-xl font-bold text-gray-900">
-              {status === "loading" && "Verifying your email..."}
-              {status === "success" && "Email Verified 🎉"}
-              {status === "error" && "Verification Failed"}
-            </h2>
-
-            <p className="mt-2 text-sm text-gray-500 max-w-xs">
-              {status === "loading" &&
-                "Please wait while we confirm your email address."}
-
-              {status === "success" &&
-                "Your account is now active. Redirecting you to sign in..."}
-
-              {status === "error" &&
-                "This link is invalid or has expired. Please try again."}
-            </p>
-
-            {/* BUTTON (fallback if redirect fails) */}
-            {status !== "loading" && (
-              <button
-                onClick={() => router.push("/login")}
-                className="mt-6 rounded-xl px-6 py-3 text-sm font-semibold text-white"
-                style={{
-                  background: "linear-gradient(135deg,#6c47ff,#9b72ff)",
-                }}
-              >
-                Go to Sign In
-              </button>
-            )}
           </div>
         </div>
       </div>

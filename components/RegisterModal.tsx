@@ -54,7 +54,7 @@ export default function RegisterModal({ open, onClose }: RegisterModalProps) {
     onClose();
 
     setTimeout(() => {
-      window.location.href = "/login";
+      window.location.href = "/verify-email-page";
     }, 1500);
 
   } catch (err: any) {
@@ -88,7 +88,7 @@ export default function RegisterModal({ open, onClose }: RegisterModalProps) {
 
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-8">
-            <Logo size={42} />
+            <Logo  />
 
             <h2 className="sora mt-4 text-2xl font-black text-gray-900">
               Create your account

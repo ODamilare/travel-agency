@@ -20,7 +20,7 @@ import { BsPeopleFill } from "react-icons/bs";
 import { RiFlightTakeoffLine } from "react-icons/ri";
 import { TbActivityHeartbeat } from "react-icons/tb";
 
-/* ─── Data ─────────────────────────────────── */
+/* Data */
 
 
 const CATEGORIES = [
@@ -67,7 +67,7 @@ const SOCIAL = [
   { icon: <FaInstagram size={14} />,  label: "Instagram" },
 ];
 
-/* ─── Logo ─────────────────────────────────── */
+/* Logo  */
 function Logo({ size = 34 }: { size?: number }) {
   return (
     <div style={{ width: size, height: size, background: "conic-gradient(#f5a623 0deg 180deg, #4a3fbf 180deg 360deg)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -76,7 +76,7 @@ function Logo({ size = 34 }: { size?: number }) {
   );
 }
 
-/* ─── Page ─────────────────────────────────── */
+/*  Page  */
 export default function HomePage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -100,24 +100,24 @@ export default function HomePage() {
       
       `}</style>
 
-      {/* ══ NAVBAR ══════════════════════════════ */}
+      {/* NAVBAR  */}
        
 <SearchBar />
-      {/* ══ HERO ════════════════════════════════ */}
+      {/* HERO  */}
    <Hero />
-      {/* ══ FLIGHT DEALS CAROUSEL ═══════════════ */}
-     <DealsCarousel />
+      {/* FLIGHT DEALS CAROUSEL */}
+    <DealsCarousel />
 
-      {/* ══ WHY US ══════════════════════════════ */}
+      {/* WHY US  */}
      <WhyUs />
 
-      {/* ══ OFFERS ══════════════════════════════ */}
+      {/*  OFFERS  */}
     
       <Offers OFFERS={OFFERS} />
-      {/* ══ POPULAR HOTELS ══════════════════════ */}
+      {/* POPULAR HOTELS  */}
     <PopularHotels HOTELS={HOTELS} />   
 
-      {/* ══ SERVICES ════════════════════════════ */}
+      {/*  SERVICES */}
       <section className="px-5 py-14 md:px-10 md:py-18">
         <div className="mx-auto max-w-7xl">
           <div className="mb-8">
@@ -140,7 +140,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══ RESTAURANT + GROCERIES ══════════════ */}
+      {/*  RESTAURANT + GROCERIES  */}
       <section className="bg-white px-5 py-14 md:px-10 md:py-18">
         <div className="mx-auto max-w-7xl grid gap-6 md:grid-cols-2">
           <div className="lift flex flex-col items-center overflow-hidden rounded-3xl p-10 text-center" style={{ background: "linear-gradient(135deg,#fff8ec,#ffe8b8)" }}>
@@ -164,7 +164,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══ SIGN IN TO SAVE ══════════════════════ */}
+      {/* SIGN IN TO SAVE  */}
       <section className="relative overflow-hidden px-5 py-16 md:px-10 md:py-24" style={{ background: "linear-gradient(135deg,#6c47ff 0%,#a78bfa 100%)" }}>
         <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-white/8" />
         <div className="pointer-events-none absolute -bottom-16 left-1/4 h-56 w-56 rounded-full bg-white/5" />
@@ -183,7 +183,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══ NEWSLETTER ══════════════════════════ */}
+      {/* NEWSLETTER */}
       <section className="px-5 py-14 md:px-10 md:py-18">
         <div className="mx-auto max-w-2xl text-center">
           <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#6c47ff]">Stay in the loop</p>
@@ -198,7 +198,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══ FAQ ═════════════════════════════════ */}
+      {/* FAQ */}
       <section className="bg-white px-5 py-14 md:px-10 md:py-18">
         <div className="mx-auto max-w-3xl">
           <div className="mb-10 text-center">
@@ -221,7 +221,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ══ FOOTER ══════════════════════════════ */}
+      {/* FOOTER  */}
       <footer className="bg-[#ede8ff] px-5 pt-14 pb-7 md:px-10">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12 grid grid-cols-2 gap-8 md:grid-cols-4">
@@ -238,9 +238,15 @@ export default function HomePage() {
               </div>
             ))}
             <div>
-              <Link href="/" className="mb-4 flex items-center gap-2.5">
-                <Logo size={32} />
-                <span className="sora text-sm font-bold tracking-widest text-gray-800">LUXTRAVELERZ</span>
+              <Link href="/home" className="mb-1 flex items-center ">
+           
+  <img
+    src="/logo.png"
+    alt="Logo"
+    className="h-20 w-30 md:h-24 md:w-34 lg:h-28 lg:w-38 object-contain"
+  />
+
+                
               </Link>
               <p className="text-xs leading-relaxed text-gray-500">Your journey to the world's most hidden gem begins here.</p>
             </div>
@@ -253,7 +259,7 @@ export default function HomePage() {
                   <Link key={l} href="#" className="text-xs text-gray-500 transition hover:text-[#6c47ff]">{l}</Link>
                 ))}
               </div>
-              <p className="text-xs text-gray-400">© 2026 Uxtravelerz. All Rights Reserved</p>
+              <p className="text-xs text-gray-400">© 2026 Luxtravelerz. All Rights Reserved</p>
               <div className="flex gap-2.5">
                 {SOCIAL.map((s) => (
                   <a key={s.label} href="#" aria-label={s.label} className="flex h-9 w-9 items-center justify-center rounded-full bg-[#6c47ff] text-white transition hover:bg-[#5a38e0] hover:shadow-md active:scale-95">

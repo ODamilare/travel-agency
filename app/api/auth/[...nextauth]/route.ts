@@ -15,7 +15,7 @@ export const authOptions: AuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      // ❌ REMOVE httpOptions for now (causes issues sometimes in dev)
+      
     }),
 
     CredentialsProvider({
@@ -25,31 +25,46 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" },
       },
 
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+    async authorize(credentials) {
+  if (!credentials?.email) {
+    throw new Error("EMAIL_REQUIRED");
+  }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        });
+  if (!credentials?.password) {
+    throw new Error("PASSWORD_REQUIRED");
+  }
 
-        if (!user || !user.password) return null;
+  const user = await prisma.user.findUnique({
+    where: { email: credentials.email },
+  });
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-if (!user.emailVerified) {
-  throw new Error("Please verify your email first");
+  if (!user) {
+    throw new Error("USER_NOT_FOUND");
+  }
+
+  if (!user.password) {
+    throw new Error("NO_PASSWORD_SET"); // for Google users trying credentials
+  }
+
+  if (!user.emailVerified) {
+    throw new Error("EMAIL_NOT_VERIFIED");
+  }
+
+  const isValid = await bcrypt.compare(
+    credentials.password,
+    user.password
+  );
+
+  if (!isValid) {
+    throw new Error("INVALID_PASSWORD");
+  }
+
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+  };
 }
-        if (!isValid) return null;
-
-        // ✅ Return clean object (IMPORTANT)
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        };
-      },
     }),
   ],
 

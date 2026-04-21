@@ -11,7 +11,12 @@ import { BsPeopleFill } from "react-icons/bs";
 import { RiFlightTakeoffLine } from "react-icons/ri";
 import { TbActivityHeartbeat } from "react-icons/tb";
 
-export const NAV_LINKS = ["Flights", "Hotels", "Activities", "Rides", "Deals"];
+export const NAV_LINKS = [
+  { name: "Activities", href: "/home" },
+  { name: "Flights", href: "/flights" },
+  { name: "Rides", href: "/deals" },
+  { name: "Stays", href: "/hotels" },
+];
 
 
 export const CATEGORIES = [

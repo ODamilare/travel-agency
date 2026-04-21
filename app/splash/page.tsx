@@ -79,10 +79,14 @@ const SplashPage: NextPage = () => {
         {/* TOP BAR */}
         <div className="flex items-center justify-between px-6 md:px-10 py-6">
           <div className="flex items-center gap-3">
-            <Logo size={40} />
-            <span className="text-[11px] font-bold tracking-[0.2em] text-white">
-              LUXTRAVELERZ
-            </span>
+        
+             <img
+               src="/logo.png"
+               alt="Logo"
+               className="h-20 w-30 md:h-24 md:w-34 lg:h-28 lg:w-58 object-contain"
+             />
+         
+           
           </div>
 
           <Link

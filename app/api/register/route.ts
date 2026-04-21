@@ -8,13 +8,29 @@ export async function POST(req: Request) {
   try {
     const { name, email, password } = await req.json();
 
-    if (!email || !password) {
+    // ✅ VALIDATION
+    if (!name || !email || !password) {
       return NextResponse.json(
-        { error: "Missing fields" },
+        { error: "All fields are required" },
         { status: 400 }
       );
     }
 
+    if (!email.includes("@")) {
+      return NextResponse.json(
+        { error: "Invalid email address" },
+        { status: 400 }
+      );
+    }
+
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: "Password must be at least 6 characters" },
+        { status: 400 }
+      );
+    }
+
+    // ✅ CHECK EXISTING USER
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -22,10 +38,11 @@ export async function POST(req: Request) {
     if (existingUser) {
       return NextResponse.json(
         { error: "User already exists" },
-        { status: 400 }
+        { status: 409 }
       );
     }
 
+    // ✅ HASH PASSWORD
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
@@ -37,29 +54,47 @@ export async function POST(req: Request) {
       },
     });
 
-    // create verification token
+    // ✅ CREATE TOKEN
     const token = crypto.randomBytes(32).toString("hex");
 
     await prisma.verificationToken.create({
       data: {
         identifier: user.email!,
         token,
-        expires: new Date(Date.now() + 1000 * 60 * 60),
+        expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
       },
     });
 
-    // send email (IMPORTANT: wrap safely)
-    await sendVerificationEmail(user.email!, token);
+    // ✅ SEND EMAIL (SAFE WRAP)
+    try {
+      await sendVerificationEmail(user.email!, token);
+    } catch (mailError) {
+      console.error("MAIL ERROR:", mailError);
+
+      // ⚠️ Don't fail registration because of email
+      return NextResponse.json({
+        warning:
+          "Account created, but we couldn’t send verification email. Try again later.",
+      });
+    }
 
     return NextResponse.json({
-      message: "User created. Check your email to verify account.",
+      message: "Account created. Check your email to verify your account.",
     });
 
   } catch (error: any) {
     console.error("REGISTER ERROR:", error);
 
+    // 🔥 HANDLE KNOWN PRISMA ERRORS
+    if (error.code === "P2002") {
+      return NextResponse.json(
+        { error: "This email is already registered" },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Something went wrong. Please try again." },
       { status: 500 }
     );
   }

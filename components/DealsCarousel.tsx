@@ -1,67 +1,164 @@
 "use client";
 
 import { useRef } from "react";
-import { DEALS } from "@/data/data";
-
-import { MdFlight, MdChevronLeft, MdChevronRight } from "react-icons/md";
-
-import { HiOutlineShieldCheck, HiOutlineClock, HiOutlineGlobeAlt, HiOutlineSparkles } from "react-icons/hi2";
+import { MdChevronLeft, MdChevronRight, MdFlight } from "react-icons/md";
+import { HiOutlineShieldCheck } from "react-icons/hi2";
+import Link from "next/link";
 
 export default function DealsCarousel() {
-   const carouselRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const deals = [
+    { id: 1, from: "Lagos", to: "Dubai", date: "Dec 12 - Dec 20", price: 420000, badge: "Hot Deal", lock: "24h", image: "/deals/dubai.jpg" },
+    { id: 2, from: "Lagos", to: "London", date: "Jan 5 - Jan 12", price: 510000, badge: "Limited", lock: "12h", image: "/deals/london.jpg" },
+    { id: 3, from: "Lagos", to: "Paris", date: "Feb 2 - Feb 10", price: 480000, badge: "New", lock: "48h", image: "/deals/paris.jpg" },
+    { id: 4, from: "Lagos", to: "New York", date: "Mar 10 - Mar 18", price: 750000, badge: "Trending", lock: "6h", image: "/deals/newyork.jpg" },
+    { id: 5, from: "Lagos", to: "Johannesburg", date: "Apr 2 - Apr 9", price: 310000, badge: "Budget Deal", lock: "24h", image: "/deals/johannesburg.jpg" },
+    { id: 6, from: "Lagos", to: "Istanbul", date: "May 1 - May 8", price: 390000, badge: "Special", lock: "18h", image: "/deals/istanbul.jpg" },
+    { id: 7, from: "Lagos", to: "Toronto", date: "Jun 5 - Jun 14", price: 680000, badge: "Exclusive", lock: "12h", image: "/deals/toronto.jpg" },
+  ];
 
   const scroll = (dir: "left" | "right") => {
-    carouselRef.current?.scrollBy({ left: dir === "right" ? 310 : -310, behavior: "smooth" });
+    if (!carouselRef.current) return;
+
+    carouselRef.current.scrollBy({
+      left: dir === "right" ? 360 : -360,
+      behavior: "smooth",
+    });
+  };
+
+  const formatNaira = (value: number) =>
+    new Intl.NumberFormat("en-NG", {
+      style: "currency",
+      currency: "NGN",
+      maximumFractionDigits: 0,
+    }).format(value);
+
+  const badgeColor = (badge: string) => {
+    switch (badge) {
+      case "Hot Deal":
+        return "bg-red-500/90";
+      case "Limited":
+        return "bg-purple-500/90";
+      case "Budget Deal":
+        return "bg-green-500/90";
+      default:
+        return "bg-[#6c47ff]/90";
+    }
   };
 
   return (
-     <section className="px-5 py-14 md:px-10 md:py-18">
-            <div className="mx-auto max-w-7xl">
-              <div className="mb-8 flex items-end justify-between">
-                <div>
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-[#6c47ff]">Limited time</p>
-                  <h2 className="sora text-2xl font-extrabold text-gray-900 md:text-3xl">Today's Flight Deals</h2>
-                </div>
-                <div className="flex gap-2">
-                  <button onClick={() => scroll("left")}  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow-sm transition hover:border-[#6c47ff] hover:text-[#6c47ff]"><MdChevronLeft size={22} /></button>
-                  <button onClick={() => scroll("right")} className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow-sm transition hover:border-[#6c47ff] hover:text-[#6c47ff]"><MdChevronRight size={22} /></button>
+    <section className="px-5 py-16 md:px-10 bg-[#f9f9ff]">
+      <div className="mx-auto max-w-7xl relative">
+
+        {/* HEADER */}
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <p className="text-[11px] font-bold tracking-[0.25em] text-[#6c47ff] uppercase">
+              Flight Deals
+            </p>
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              Cheap Flights from Lagos
+            </h2>
+          </div>
+
+          {/* arrows (cleaner + subtle) */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => scroll("left")}
+              className="h-10 w-10 rounded-full bg-white border shadow-sm hover:shadow-md transition flex items-center justify-center"
+            >
+              <MdChevronLeft size={22} />
+            </button>
+
+            <button
+              onClick={() => scroll("right")}
+              className="h-10 w-10 rounded-full bg-white border shadow-sm hover:shadow-md transition flex items-center justify-center"
+            >
+              <MdChevronRight size={22} />
+            </button>
+          </div>
+        </div>
+
+        {/* CAROUSEL */}
+        <div
+          ref={carouselRef}
+          className="flex gap-6 overflow-x-auto scroll-smooth pb-4"
+        >
+          {deals.map((deal) => (
+            <Link
+              key={deal.id}
+              href={`/deals/${deal.id}`}
+              className="relative flex-shrink-0 w-[340px] rounded-2xl overflow-hidden shadow-md group bg-white"
+            >
+
+              {/* IMAGE */}
+              <div className="relative h-[220px] w-full overflow-hidden">
+                <img
+                  src={deal.image}
+                  alt={deal.to}
+                  className="h-full w-full object-cover group-hover:scale-105 transition duration-700"
+                />
+
+                {/* soft overlay (NOT too dark) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+
+                {/* badge */}
+                <div className="absolute top-4 left-4">
+                  <span
+                    className={`text-white text-[10px] px-3 py-1 rounded-full ${badgeColor(
+                      deal.badge
+                    )}`}
+                  >
+                    {deal.badge}
+                  </span>
                 </div>
               </div>
-    
-              <div ref={carouselRef} className="no-scrollbar flex gap-5 overflow-x-auto pb-4" style={{ scrollSnapType: "x mandatory" }}>
-                {DEALS.map((deal, i) => (
-                  <div key={i} className="lift relative flex-shrink-0 cursor-pointer overflow-hidden rounded-[28px]" style={{ width: 288, minHeight: 360, background: deal.bg, scrollSnapAlign: "start" }}>
-                    {/* Glow */}
-                    <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse at 15% 85%, rgba(255,255,255,0.07) 0%, transparent 65%)" }} />
-                    {/* Top grain texture feel */}
-                    <div className="pointer-events-none absolute inset-0 opacity-30" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E\")" }} />
-    
-                    <div className="relative flex h-full flex-col justify-between p-6" style={{ minHeight: 360 }}>
-                      <div>
-                        <span className="mb-5 inline-block rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-white/70">
-                          {deal.badge}
-                        </span>
-                        <div className="mb-1 flex items-center gap-2">
-                          <span className="text-sm font-medium text-white/65">{deal.from}</span>
-                          <MdFlight size={14} className="rotate-90 text-[#ffd166]" />
-                          <span className="text-sm font-bold text-white">{deal.to}</span>
-                        </div>
-                        <p className="mb-6 text-xs text-white/40">{deal.date}</p>
-                        <p className="sora text-5xl font-black uppercase leading-none tracking-tight text-white/8 select-none">{deal.to}</p>
-                      </div>
-                      <div>
-                        <p className="mb-0.5 text-[10px] font-medium text-white/45">Pay now from</p>
-                        <p className="sora mb-4 text-2xl font-extrabold text-white">{deal.price}</p>
-                        <button className="flex w-full items-center justify-center gap-2 rounded-2xl py-3.5 text-sm font-bold text-white transition hover:opacity-90 active:scale-95" style={{ background: "linear-gradient(135deg,#f5a623,#f07c10)" }}>
-                          <HiOutlineShieldCheck size={16} />
-                          Lock · {deal.lock}
-                        </button>
-                      </div>
+
+              {/* CONTENT */}
+              <div className="p-5">
+
+                {/* route */}
+                <div className="flex items-center justify-between text-sm font-medium text-gray-900">
+                  <span>{deal.from}</span>
+
+                  {/* fixed airplane line (NO SHIFTING EVER) */}
+                  <div className="flex-1 mx-3 relative">
+                    <div className="border-t border-dashed border-gray-300" />
+                    <div className="absolute left-1/2 -translate-x-1/2 -top-[10px] text-[#6c47ff]">
+                      <MdFlight size={18} />
                     </div>
                   </div>
-                ))}
+
+                  <span>{deal.to}</span>
+                </div>
+
+                <p className="text-xs text-gray-500 mt-1">{deal.date}</p>
+
+                {/* price + CTA */}
+                <div className="mt-4 flex items-end justify-between">
+
+                  <div>
+                    <p className="text-[11px] text-gray-400">From</p>
+                    <p className="text-xl font-extrabold text-gray-900">
+                      {formatNaira(deal.price)}
+                    </p>
+                  </div>
+
+                  <button className="bg-gradient-to-r from-[#ffd166] to-[#ffb703]
+shadow-md shadow-yellow-200 text-black text-xs font-semibold px-4 py-2 rounded-full hover:bg-[#ffcc4d] transition flex items-center gap-1">
+                    <HiOutlineShieldCheck size={14} />
+                    Lock {deal.lock}
+                  </button>
+
+                </div>
               </div>
-            </div>
-          </section>
+
+            </Link>
+          ))}
+        </div>
+
+      </div>
+    </section>
   );
 }

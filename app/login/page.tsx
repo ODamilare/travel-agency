@@ -24,32 +24,40 @@ export default function LoginPage() {
     });
   };
 
- const handleLogin = async (e: React.FormEvent) => {
+const handleLogin = async (e: React.FormEvent) => {
   e.preventDefault();
-  setLoading(true);
 
-  try {
-    const res = await signIn("credentials", {
-      redirect: false,
-      email: form.email,
-      password: form.password,
-    });
+  const res = await signIn("credentials", {
+    email: form.email,
+    password: form.password,
+    redirect: false, // ⚠️ VERY IMPORTANT
+  });
 
-    if (!res?.ok) {
-     throw new Error(res?.error || "Login failed");
+  if (res?.error) {
+   if (res.error === "EMAIL_NOT_VERIFIED") {
+  localStorage.setItem("verifyEmail", form.email); // 🔥 STORE IT
+  toast.error("Please verify your email first");
+  router.push("/verify-email-page");
+  return;
+}
+
+    if (res.error === "USER_NOT_FOUND") {
+      toast.error("No account found with this email");
+      return;
     }
 
-    toast.success("Login successful!");
+    if (res.error === "INVALID_PASSWORD") {
+      toast.error("Incorrect password");
+      return;
+    }
 
-    setTimeout(() => {
-      router.push("/home"); // ✅ ALWAYS go here
-    }, 1000);
-
-  } catch (err: any) {
-    toast.error(err.message);
-  } finally {
-    setLoading(false);
+    toast.error("Login failed");
+    return;
   }
+
+  // ✅ SUCCESS
+  toast.success("Logged in successfully");
+  router.push("/home");
 };
 
   return (
@@ -63,7 +71,13 @@ export default function LoginPage() {
 
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-8">
-            <Logo size={42} />
+           
+  <img
+    src="/logo.png"
+    alt="Logo"
+    className="h-20 w-30 md:h-24 md:w-34 lg:h-28 lg:w-38 object-contain"
+  />
+
 
             <h2 className="mt-4 text-2xl font-black text-gray-900">
               Welcome back
@@ -102,7 +116,14 @@ export default function LoginPage() {
                 className="w-full bg-transparent outline-none text-sm text-gray-900 placeholder-gray-400"
               />
             </div>
-
+<div className="text-right">
+  <span
+    onClick={() => router.push("/forgot-password")}
+    className="text-xs text-[#6c47ff] cursor-pointer hover:underline"
+  >
+    Forgot password?
+  </span>
+</div>
             {/* Submit */}
             <button
               type="submit"
@@ -135,10 +156,10 @@ export default function LoginPage() {
           <p className="mt-6 text-center text-[12px] text-gray-500">
             Don’t have an account?{" "}
             <span
-              onClick={() => (window.location.href = "/")}
+              onClick={() => (window.location.href = "/register")}
               className="font-semibold text-[#6c47ff] cursor-pointer"
             >
-              Register
+            Create an account
             </span>
           </p>
 
