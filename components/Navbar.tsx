@@ -175,8 +175,16 @@ export default function Navbar() {
 
         {/* MOBILE MENU */}
         {mobileOpen && (
-          <div className="border-t border-[#6c47ff]/10 bg-white px-5 py-5 md:hidden">
-
+          <div className="border-t border-[#6c47ff]/10 bg-white px-5 py-5 md:hidden flex-col ">
+          {NAV_LINKS.map((l) => (
+             <Link
+    key={l.name}
+    href={l.href}
+    className="text-sm flex flex-col font-medium text-[#6c47ff] hover:text-[#5333ff] transition-colors duration-200"
+  >
+    {l.name}
+  </Link>
+            ))}
             {session && (
               <Link
                 href="/profile"
@@ -199,15 +207,7 @@ export default function Navbar() {
               </Link>
             )}
 
-            {NAV_LINKS.map((l) => (
-             <Link
-    key={l.name}
-    href={l.href}
-    className="text-sm font-medium text-[#6c47ff] hover:text-[#5333ff] transition-colors duration-200"
-  >
-    {l.name}
-  </Link>
-            ))}
+  
 
             <div className="mt-5 flex gap-3">
 

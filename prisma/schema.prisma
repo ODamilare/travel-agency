@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -14,27 +14,24 @@ model User {
   password      String
   emailVerified DateTime?
   image         String?
-
-  accounts Account[]
-  sessions Session[]
+  accounts      Account[]
+  sessions      Session[]
 }
 
 model Account {
-  id                String @id @default(cuid())
+  id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-
-  refresh_token String?
-  access_token  String?
-  expires_at    Int?
-  token_type    String?
-  scope         String?
-  id_token      String?
-  session_state String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -44,12 +41,11 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Deal {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   from        String
   to          String
   date        String
@@ -59,9 +55,8 @@ model Deal {
   bg          String
   description String?
   image       String?
-  createdAt   DateTime @default(now())
-
-  bookings Booking[]
+  createdAt   DateTime  @default(now())
+  bookings    Booking[]
 }
 
 model Booking {
@@ -70,8 +65,7 @@ model Booking {
   userId    String
   status    String   @default("pending")
   createdAt DateTime @default(now())
-
-  deal Deal @relation(fields: [dealId], references: [id])
+  deal      Deal     @relation(fields: [dealId], references: [id])
 }
 
 model VerificationToken {
