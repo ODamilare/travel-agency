@@ -1,3 +1,6 @@
+"use client";
+
+
 import { CATEGORIES } from "@/data/data";
 
 export default function Hero() {

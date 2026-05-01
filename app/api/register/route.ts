@@ -1,12 +1,8 @@
-"use server";
-
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
-import crypto from "crypto";
 
-// ✅ import BOTH emails
-
+// ✅ ONLY welcome email
 import { sendWelcomeEmail } from "@/lib/sendWelcomeEmail";
 
 export async function POST(req: Request) {
@@ -56,46 +52,29 @@ export async function POST(req: Request) {
         name,
         email,
         password: hashedPassword,
+
+        // keep your verification system untouched
         emailVerified: null,
       },
     });
 
-    // ✅ CREATE VERIFICATION TOKEN
-    const token = crypto.randomBytes(32).toString("hex");
-
-    await prisma.verificationToken.create({
-      data: {
-        identifier: user.email!,
-        token,
-        expires: new Date(Date.now() + 1000 * 60 * 60),
-      },
-    });
-
-    // 🚀 SEND EMAILS (DO NOT BREAK FLOW IF THEY FAIL)
+    // ✅ SEND WELCOME EMAIL ONLY
     try {
-      // 👉 1. Send welcome email immediately
-      await sendWelcomeEmail(user.email!, user.name || undefined);
-
-      // 👉 2. Send verification email
-  
-
+      await sendWelcomeEmail(user.email!, user.name || "Traveler");
     } catch (mailError) {
-      console.error("MAIL ERROR:", mailError);
+      console.error("WELCOME EMAIL ERROR:", mailError);
 
-      return NextResponse.json({
-        warning:
-          "Account created, but we couldn’t send some emails. You can request them again.",
-      });
+      // don't fail signup because of email
     }
 
     return NextResponse.json({
-      message:
-        "Account created successfully. Check your email to verify your account.",
+      message: "Account created successfully",
     });
 
   } catch (error: any) {
     console.error("REGISTER ERROR:", error);
 
+    // Prisma duplicate email safety
     if (error.code === "P2002") {
       return NextResponse.json(
         { error: "This email is already registered" },

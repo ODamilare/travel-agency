@@ -14,6 +14,10 @@ import {
   MdKeyboardArrowDown,
 } from "react-icons/md";
 
+
+import { useRouter } from "next/navigation";
+
+
 // ============================================================================
 // Types
 // ============================================================================
@@ -683,7 +687,7 @@ export default function FlightResultsPage(): ReactNode {
   const handleSelectFlight = useCallback((flight: Flight) => {
     setSelectedFlight(flight);
   }, []);
-
+const router = useRouter();
   const handleSortChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setSortBy(e.target.value as "price" | "duration" | "rating" | "departure");
@@ -707,9 +711,12 @@ export default function FlightResultsPage(): ReactNode {
             </p>
           </div>
 
-          <button className="px-4 py-2 text-sm font-medium text-[#6c47ff] border border-[#6c47ff] rounded-full hover:bg-[#6c47ff]/5 transition">
-            ✏️ Edit search
-          </button>
+         <button
+  onClick={() => router.back()}
+  className="px-4 py-2 text-sm font-medium text-[#6c47ff] border border-[#6c47ff] rounded-full hover:bg-[#6c47ff]/5 transition"
+>
+  ✏️ Edit search
+</button>
         </div>
       </div>
 
