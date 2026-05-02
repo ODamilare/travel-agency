@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 
 /* react-icons */
-import { MdFlight, MdHotel, MdDirectionsCar, MdRestaurant, MdShoppingCart, MdOutlineLocalTaxi, MdChevronLeft, MdChevronRight, MdMenu, MdClose, MdKeyboardArrowDown } from "react-icons/md";
+import { MdFlight, MdHotel, MdDirectionsCar, MdRestaurant, MdExplore, MdOutlineLocalTaxi, MdChevronLeft, MdChevronRight, MdMenu, MdClose, MdKeyboardArrowDown } from "react-icons/md";
 import { FaTwitter, FaFacebookF, FaLinkedinIn, FaInstagram } from "react-icons/fa";
 import { HiOutlineShieldCheck, HiOutlineClock, HiOutlineGlobeAlt, HiOutlineSparkles } from "react-icons/hi2";
 import { BsPeopleFill } from "react-icons/bs";
@@ -12,10 +12,26 @@ import { RiFlightTakeoffLine } from "react-icons/ri";
 import { TbActivityHeartbeat } from "react-icons/tb";
 
 export const NAV_LINKS = [
-  { name: "Activities", href: "/home" },
-  { name: "Flights", href: "/flights" },
-  { name: "Rides", href: "/deals" },
-  { name: "Stays", href: "/hotels" },
+  {
+    name: "Flights",
+    href: "/flights",
+    icon: MdFlight,
+  },
+  {
+    name: "Stays",
+    href: "/hotels",
+    icon: MdHotel,
+  },
+  {
+    name: "Rides",
+    href: "/rides",
+    icon: MdDirectionsCar,
+  },
+  {
+    name: "Explore",
+    href: "/explore",
+    icon: MdExplore,
+  },
 ];
 
 
