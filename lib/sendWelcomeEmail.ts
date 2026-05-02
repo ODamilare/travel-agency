@@ -36,6 +36,27 @@ export const sendWelcomeEmail = async (
             line-height: 1.6;
           }
 
+          .icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6c47ff, #9b72ff);
+}
+
+.icon-table {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6c47ff, #9b72ff);
+}
+
+.icon-cell {
+  width: 48px;
+  height: 48px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+}
           .container {
             max-width: 640px;
             margin: 0 auto;
@@ -569,11 +590,11 @@ export const sendWelcomeEmail = async (
               Premium Travel Platform
             </div>
 
-            <h1 class="title">
-              Welcome to
-              <span class="gradient-text">LuxTravelerz</span>,<br>
-              ${name || "Traveler"} ✈️
-            </h1>
+           <h1 class="title">
+  Welcome to<br>
+  <span class="gradient-text">LuxTravelerz</span>,<br>
+  ${name || "Traveler"}
+</h1>
 
             <p class="subtitle">
               Your exclusive gateway to unforgettable destinations,
@@ -583,7 +604,11 @@ export const sendWelcomeEmail = async (
 
           <!-- Verification Section -->
           <div class="verify-section">
-            <div class="verify-icon">✉️</div>
+           <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="icon-cell">✉</td>
+  </tr>
+</table>
             
             <h2 class="verify-title">
               One Last Step to Get Started
@@ -602,73 +627,128 @@ export const sendWelcomeEmail = async (
           <!-- Main Content -->
           <div class="content">
 
-            <h2 class="section-title">What awaits you at LuxTravelerz</h2>
+  <h2 class="section-title">What awaits you at LuxTravelerz</h2>
 
-            <div class="features-grid">
-              <div class="feature-card">
-                <div class="feature-icon">✈️</div>
-                <div class="feature-title">Instant Bookings</div>
-                <div class="feature-text">
-                  Reserve flights, hotels, and experiences in seconds
-                </div>
-              </div>
+  <!-- FEATURES GRID -->
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom:40px;">
+    <tr>
 
-              <div class="feature-card">
-                <div class="feature-icon">🏝️</div>
-                <div class="feature-title">Curated Experiences</div>
-                <div class="feature-text">
-                  Handpicked luxury stays and unforgettable adventures
-                </div>
-              </div>
+      <!-- FEATURE 1 -->
+      <td width="50%" style="padding:10px;">
+        <div class="feature-card">
 
-              <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <div class="feature-title">150+ Destinations</div>
-                <div class="feature-text">
-                  Explore premium locations around the globe
-                </div>
-              </div>
+          <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+            <tr><td class="icon-cell">✈</td></tr>
+          </table>
 
-              <div class="feature-card">
-                <div class="feature-icon">💎</div>
-                <div class="feature-title">VIP Treatment</div>
-                <div class="feature-text">
-                  Priority support and exclusive member benefits
-                </div>
-              </div>
-            </div>
+          <div class="feature-title">Instant Bookings</div>
+          <div class="feature-text">
+            Reserve flights, hotels, and experiences in seconds
+          </div>
 
-            <div class="benefits">
-              <div class="benefit-item">
-                <div class="benefit-icon">🎯</div>
-                <div class="benefit-content">
-                  <div class="benefit-title">Personalized Recommendations</div>
-                  <div class="benefit-text">
-                    AI-powered suggestions tailored to your travel preferences
-                  </div>
-                </div>
-              </div>
+        </div>
+      </td>
 
-              <div class="benefit-item">
-                <div class="benefit-icon">💰</div>
-                <div class="benefit-content">
-                  <div class="benefit-title">Best Price Guarantee</div>
-                  <div class="benefit-text">
-                    Exclusive deals and competitive pricing on luxury travel
-                  </div>
-                </div>
-              </div>
+      <!-- FEATURE 2 -->
+      <td width="50%" style="padding:10px;">
+        <div class="feature-card">
 
-              <div class="benefit-item">
-                <div class="benefit-icon">🛡️</div>
-                <div class="benefit-content">
-                  <div class="benefit-title">Secure & Trusted</div>
-                  <div class="benefit-text">
-                    Bank-level security for all your bookings and payments
-                  </div>
-                </div>
-              </div>
-            </div>
+          <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+            <tr><td class="icon-cell">🏝</td></tr>
+          </table>
+
+          <div class="feature-title">Curated Experiences</div>
+          <div class="feature-text">
+            Handpicked luxury stays and unforgettable adventures
+          </div>
+
+        </div>
+      </td>
+
+    </tr>
+
+    <tr>
+
+      <!-- FEATURE 3 -->
+      <td width="50%" style="padding:10px;">
+        <div class="feature-card">
+
+          <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+            <tr><td class="icon-cell">🌍</td></tr>
+          </table>
+
+          <div class="feature-title">150+ Destinations</div>
+          <div class="feature-text">
+            Explore premium locations around the globe
+          </div>
+
+        </div>
+      </td>
+
+      <!-- FEATURE 4 -->
+      <td width="50%" style="padding:10px;">
+        <div class="feature-card">
+
+          <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+            <tr><td class="icon-cell">💎</td></tr>
+          </table>
+
+          <div class="feature-title">VIP Treatment</div>
+          <div class="feature-text">
+            Priority support and exclusive member benefits
+          </div>
+
+        </div>
+      </td>
+
+    </tr>
+  </table>
+
+  <!-- BENEFITS -->
+  <div class="benefits">
+
+    <div class="benefit-item">
+      <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+        <tr><td class="icon-cell">🎯</td></tr>
+      </table>
+
+      <div class="benefit-content">
+        <div class="benefit-title">Personalized Recommendations</div>
+        <div class="benefit-text">
+          AI-powered suggestions tailored to your travel preferences
+        </div>
+      </div>
+    </div>
+
+    <div class="benefit-item">
+      <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+        <tr><td class="icon-cell">💰</td></tr>
+      </table>
+
+      <div class="benefit-content">
+        <div class="benefit-title">Best Price Guarantee</div>
+        <div class="benefit-text">
+          Exclusive deals and competitive pricing on luxury travel
+        </div>
+      </div>
+    </div>
+
+    <div class="benefit-item">
+      <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+        <tr><td class="icon-cell">🛡️</td></tr>
+      </table>
+
+      <div class="benefit-content">
+        <div class="benefit-title">Secure & Trusted</div>
+        <div class="benefit-text">
+          Bank-level security for all your bookings and payments
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+            <!-- Stats Bar -->  
 
             <div class="stats-bar">
               <div class="stat">
@@ -719,11 +799,35 @@ export const sendWelcomeEmail = async (
               Need help? Contact us at <a href="mailto:support@luxtravelerz.com" class="footer-link">support@luxtravelerz.com</a>
             </div>
 
-            <div class="socials">
-              <a href="#" class="social-link" title="Instagram">📷</a>
-              <a href="#" class="social-link" title="Twitter">🐦</a>
-              <a href="#" class="social-link" title="LinkedIn">💼</a>
-            </div>
+          <table role="presentation" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+
+    <td style="padding:0 6px;">
+      <a href="#" class="social-link" title="Instagram">
+        <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+          <tr><td class="icon-cell">IG</td></tr>
+        </table>
+      </a>
+    </td>
+
+    <td style="padding:0 6px;">
+      <a href="#" class="social-link" title="Twitter">
+        <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+          <tr><td class="icon-cell">TW</td></tr>
+        </table>
+      </a>
+    </td>
+
+    <td style="padding:0 6px;">
+      <a href="#" class="social-link" title="LinkedIn">
+        <table role="presentation" class="icon-wrapper" cellspacing="0" cellpadding="0">
+          <tr><td class="icon-cell">IN</td></tr>
+        </table>
+      </a>
+    </td>
+
+  </tr>
+</table>
           </div>
 
         </div>
