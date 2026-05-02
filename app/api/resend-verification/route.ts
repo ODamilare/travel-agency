@@ -63,7 +63,7 @@ export async function POST(req: Request) {
 
     // 📧 SEND EMAIL
     const response = await resend.emails.send({
-      from: "onboarding@resend.dev",
+      from: "LuxTravelerz <noreply@luxtravelerz.com>",
       to: email,
       subject: "Verify your email",
       html: `
