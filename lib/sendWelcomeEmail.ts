@@ -66,7 +66,7 @@ export const sendWelcomeEmail = async (
     .header-glow { position: absolute; top: -80px; left: 50%; transform: translateX(-50%); width: 500px; height: 300px; background: radial-gradient(ellipse, rgba(108,71,255,0.35) 0%, transparent 70%); pointer-events: none; }
     .header-dots { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
 
-    .logo-wrap { margin-bottom: 32px; position: relative; z-index: 1; }
+    .logo-wrap { margin-bottom: 12px; position: relative; z-index: 1; }
     .logo-img { height: 114px; width: 115px; }
 
     .badge-wrap { margin-bottom: 28px; position: relative; z-index: 1; }
@@ -162,11 +162,11 @@ export const sendWelcomeEmail = async (
     <div class="header-dots"></div>
 
     <div class="logo-wrap">
-      <img src="${logoUrl}" alt="LuxTravelerz" class="logo-img" />
+         <img src="https://luxtravelerz.netlify.app/logo1.png" alt="LuxTravelerz" width="250" height="192" style="margin-top:-9px;" />
     </div>
 
     <div class="badge-wrap">
-      <span class="badge"><img src="https://luxtravelerz.netlify.app/email-icons/star.png" width="22" height="22" />&nbsp;&nbsp;Premium Travel Platform&nbsp;&nbsp;<img src="https://luxtravelerz.app/email-icons/star.png" width="22" height="22" /></span>
+      <span class="badge"><img src="https://luxtravelerz.netlify.app/email-icons/star.png" width="22" height="22" style="margin-top:9px;"/>&nbsp;&nbsp;Premium Travel Platform&nbsp;&nbsp;<img src="https://luxtravelerz.netlify.app/email-icons/star.png" width="22" height="22" style="margin-top:9px;" /></span>
     </div>
 
     <h1 class="headline">
@@ -196,7 +196,7 @@ export const sendWelcomeEmail = async (
       <table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto 24px;position:relative;z-index:1;">
         <tr>
           <td width="72" height="72" align="center" valign="middle" style="background:rgba(255,255,255,0.15);border:1.5px solid rgba(255,255,255,0.25);border-radius:36px;">
-      <img src="https://luxtravelerz.netlify.app/email-icons/mail.png" width="22" height="22" />
+      <img src="https://luxtravelerz.netlify.app/email-icons/mail.png" width="52" height="62" margin="50" />
           </td>
         </tr>
       </table>
@@ -227,7 +227,7 @@ export const sendWelcomeEmail = async (
             <table role="presentation" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="feature-icon-cell" width="48" height="48" style="border-radius:14px;">
-                <img src="https://luxtravelerz.netlify.app/email-icons/plane.png" width="22" height="22" />
+                <img src="https://luxtravelerz.netlify.app/email-icons/plane.png" width="32" height="32" style="margin-top:14px;" />
                 </td>
               </tr>
             </table>
@@ -255,7 +255,7 @@ export const sendWelcomeEmail = async (
             <table role="presentation" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="feature-icon-cell" width="48" height="48" style="border-radius:14px;">
-             <img src="https://luxtravelerz.netlify.app/email-icons/globe.png" width="22" height="22" />
+             <img src="https://luxtravelerz.netlify.app/email-icons/globe.png" width="22" height="22"  style="margin-top:10px;"/>
                 </td>
               </tr>
             </table>
@@ -268,7 +268,7 @@ export const sendWelcomeEmail = async (
             <table role="presentation" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="feature-icon-cell" width="48" height="48" style="border-radius:14px;">
-             <img src="https://luxtravelerz.app/email-icons/diamond.png" width="22" height="22" />
+             <img src="https://luxtravelerz.netlify.app/email-icons/diamond.png" width="22" height="22" />
                 </td>
               </tr>
             </table>
@@ -292,7 +292,7 @@ export const sendWelcomeEmail = async (
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="benefit-icon-cell" width="42" height="42" style="border-radius:13px;">
-                    <img src="https://luxtravelerz.netlify.app/email-icons/target.png" width="22" height="22" />
+                    <img src="https://luxtravelerz.netlify.app/email-icons/target.png" width="22" height="22" style="margin-top:8px;"/>
                   </td>
                 </tr>
               </table>
@@ -314,7 +314,7 @@ export const sendWelcomeEmail = async (
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="benefit-icon-cell" width="42" height="42" style="border-radius:13px;">
-                  <img src="https://luxtravelerz.netlify.app/email-icons/tag.png" width="22" height="22" />
+                  <img src="https://luxtravelerz.netlify.app/email-icons/tag.png" width="22" height="22" style="margin-top:8px;" />
                   </td>
                 </tr>
               </table>
@@ -336,7 +336,7 @@ export const sendWelcomeEmail = async (
               <table role="presentation" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="benefit-icon-cell" width="42" height="42" style="border-radius:13px;">
-               <img src="https://luxtravelerz.netlify.app/email-icons/shield.png" width="22" height="22" />
+               <img src="https://luxtravelerz.netlify.app/email-icons/shield.png" width="22" height="22" style="margin-top:8px;" />
                   </td>
                 </tr>
               </table>
@@ -389,7 +389,7 @@ export const sendWelcomeEmail = async (
 
   <!-- ═══ FOOTER ═══ -->
   <div class="footer">
-    <img src="${logoUrl}" alt="LuxTravelerz" class="footer-logo" />
+    <img src="https://luxtravelerz.netlify.app/logo1.png" width="250" height="192" style="margin-top:-9px;" />
 
     <p class="footer-text">
       Thank you for joining LuxTravelerz. We're thrilled to be part of your next journey.<br>
@@ -402,21 +402,21 @@ export const sendWelcomeEmail = async (
         <td style="padding:0 8px;">
           <a href="#" class="social-btn" title="Instagram" style="line-height:44px;">
             <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;">
-              <tr><td width="44" height="44" align="center" valign="middle"><img src="https://luxtravelerz.netlify.app/email-icons/instagram.png" width="22" height="22" /></td></tr>
+              <tr><td width="44" height="44" align="center" valign="middle"><img src="https://luxtravelerz.netlify.app/email-icons/instagram.png" width="22" height="22" style="margin-top:9px;" /></td></tr>
             </table>
           </a>
         </td>
         <td style="padding:0 8px;">
           <a href="#" class="social-btn" title="Twitter / X" style="line-height:44px;">
             <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;">
-              <tr><td width="44" height="44" align="center" valign="middle"><img src="https://luxtravelerz.netlify.app/email-icons/twitter.png" width="22" height="22" /></td></tr>
+              <tr><td width="44" height="44" align="center" valign="middle"><img src="https://luxtravelerz.netlify.app/email-icons/twitter.png" width="22" height="22" style="margin-top:9px;" /></td></tr>
             </table>
           </a>
         </td>
         <td style="padding:0 8px;">
           <a href="#" class="social-btn" title="LinkedIn" style="line-height:44px;">
             <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;">
-              <tr><td width="44" height="44" align="center" valign="middle"><img src="https://luxtravelerz.netlify.app/email-icons/linkedin.png" width="22" height="22" /></td></tr>
+              <tr><td width="44" height="44" align="center" valign="middle"><img src="https://luxtravelerz.netlify.app/email-icons/linkedin.png" width="22" height="22" style="margin-top:9px;"/></td></tr>
             </table>
           </a>
         </td>
