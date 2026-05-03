@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 
 // ✅ ONLY welcome email
 import { sendWelcomeEmail } from "@/lib/sendWelcomeEmail";
@@ -57,10 +58,19 @@ export async function POST(req: Request) {
         emailVerified: null,
       },
     });
+    const token = crypto.randomBytes(32).toString("hex");
+
+await prisma.verificationToken.create({
+  data: {
+    identifier: user.email!,
+    token,
+    expires: new Date(Date.now() + 1000 * 60 * 60), // 1 hour
+  },
+});
 
     // ✅ SEND WELCOME EMAIL ONLY
     try {
-      await sendWelcomeEmail(user.email!, user.name || "Traveler");
+  await sendWelcomeEmail(user.email!, token, user.name || "Traveler");
     } catch (mailError) {
       console.error("WELCOME EMAIL ERROR:", mailError);
 

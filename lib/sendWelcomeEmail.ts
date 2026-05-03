@@ -33,7 +33,7 @@ export const sendWelcomeEmail = async (
   token: string,
   name?: string
 ) => {
-  const verifyLink = `${process.env.NEXTAUTH_URL}/verify-email?token=${token}`;
+  const verifyLink = `${process.env.NEXTAUTH_URL}/api/auth/verify-email?token=${token}`;
   const siteUrl = process.env.NEXTAUTH_URL;
   const logoUrl = `${siteUrl}/logo1.png`;
 
@@ -67,7 +67,7 @@ export const sendWelcomeEmail = async (
     .header-dots { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
 
     .logo-wrap { margin-bottom: 32px; position: relative; z-index: 1; }
-    .logo-img { height: 44px; width: auto; }
+    .logo-img { height: 114px; width: 115px; }
 
     .badge-wrap { margin-bottom: 28px; position: relative; z-index: 1; }
     .badge { display: inline-block; background: rgba(108,71,255,0.2); border: 1px solid rgba(155,114,255,0.4); color: #c4b5fd; padding: 8px 20px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; font-family: 'Helvetica Neue', Arial, sans-serif; }
