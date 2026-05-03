@@ -17,7 +17,7 @@ export default function VerifyEmail() {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const res = await fetch("/api/verify-email", {
+        const res = await fetch("/api/auth/verify-email", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
