@@ -45,7 +45,7 @@ const router = useRouter();
     {
       icon: MdDirectionsCar,
       label: "Cars",
-      href: "/cars",
+      href: "/rides",
       description: "Rent vehicles at top destinations",
     },
     {

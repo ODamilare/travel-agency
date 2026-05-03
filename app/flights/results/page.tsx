@@ -252,6 +252,7 @@ function FilterPanel({ filters, setFilters, flights }: FilterPanelProps): ReactN
     },
     [filters, setFilters]
   );
+  
 
   return (
     <div className="bg-white rounded-3xl border border-gray-200 p-5 md:p-6 h-fit lg:sticky lg:top-20">
@@ -439,11 +440,11 @@ function FlightCard({ flight, onSelect }: FlightCardProps): ReactNode {
           </div>
 
           <button
-            onClick={handleSelectClick}
-            
-          >
-            Select
-          </button>
+  onClick={handleSelectClick}
+  className="px-5 py-2 bg-gradient-to-r from-[#6c47ff] to-[#5a3dd4] text-white rounded-full font-semibold hover:opacity-90 transition"
+>
+  Select
+</button>
         </div>
       </div>
 
@@ -684,9 +685,9 @@ export default function FlightResultsPage(): ReactNode {
     setSelectedFlight(null);
   }, []);
 
-  const handleSelectFlight = useCallback((flight: Flight) => {
-    setSelectedFlight(flight);
-  }, []);
+  const handleSelectFlight = (flight: Flight) => {
+  setSelectedFlight(flight);
+};
 const router = useRouter();
   const handleSortChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -694,6 +695,7 @@ const router = useRouter();
     },
     []
   );
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -783,12 +785,17 @@ const router = useRouter();
           </div>
         </div>
       </div>
-
+  {selectedFlight && (
+  <BookingModal
+    flight={selectedFlight}
+    onClose={handleCloseModal}
+  />
+)}
       {/* Footer */}
       <Footer />
 
       {/* Booking modal */}
-      <BookingModal flight={selectedFlight} onClose={handleCloseModal} />
+    
     </div>
   );
 }
