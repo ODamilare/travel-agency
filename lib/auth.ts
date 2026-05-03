@@ -23,12 +23,14 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        if (!user) return null;
+       if (!user?.password) {
+  throw new Error("NO_PASSWORD_SET");
+}
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+const isValid = await bcrypt.compare(
+  credentials.password,
+  user.password
+);
 
         if (!isValid) return null;
 
