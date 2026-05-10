@@ -2,29 +2,70 @@
 
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
-import { MdSwapHoriz, MdExpandMore, MdHouse, MdDirectionsCar, MdPublic, MdKeyboardArrowDown } from "react-icons/md";
+import { MdSwapHoriz, MdExpandMore, MdHouse, MdDirectionsCar, MdPublic, MdKeyboardArrowDown,   MdDeleteOutline, } from "react-icons/md";
 import Link from "next/link";
+import Hero from "@/components/Hero";
 import Footer from "@/components/footer";
 import DealsCarousel from "@/components/DealsCarousel";
 import { useRouter } from "next/navigation";
 export default function HomePage() {
-  const [form, setForm] = useState({
-    from: "Lagos",
-    to: "Dubai",
-    departure: "",
-    returnDate: "",
-    travelClass: "Economy",
-    ticketType: "Round Trip",
-   passengers: {
-  adults: 1,
-  children: 0,
-  childrenAges: [] as number[],
-}
-  });
+ const [form, setForm] = useState({
+  from: "Lagos",
+  to: "Dubai",
+  departure: "",
+  returnDate: "",
+
+  // START DEFAULT
+  ticketType: "One Way",
+
+  travelClass: "Economy",
+
+  nearbyAirports: false,
+  directFlights: false,
+
+  multiFlights: [
+    {
+      from: "Lagos",
+      to: "",
+      departure: "",
+    },
+    {
+      from: "",
+      to: "Lagos",
+      departure: "",
+    },
+  ],
+
+  passengers: {
+    adults: 1,
+    children: 0,
+    childrenAges: [] as number[],
+  },
+});
 const [openTravelers, setOpenTravelers] = useState(false);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("Hotels");
+// ADD THESE STATES
 
+const [searchResults, setSearchResults] = useState<string[]>([]);
+const [activeField, setActiveField] = useState<
+  "from" | "to" | null
+>(null);
+
+const airports = [
+  "Lagos (LOS)",
+  "Abuja (ABV)",
+  "Port Harcourt (PHC)",
+  "Dubai (DXB)",
+  "London (LHR)",
+  "Toronto (YYZ)",
+  "Paris (CDG)",
+  "Istanbul (IST)",
+  "New York (JFK)",
+  "Atlanta (ATL)",
+  "Cape Town (CPT)",
+  "Johannesburg (JNB)",
+];
   const swapCities = () => {
     setForm({
       ...form,
@@ -34,7 +75,25 @@ const [openTravelers, setOpenTravelers] = useState(false);
   };
 const router = useRouter();
   const popular = ["London", "Dubai", "Paris", "Toronto", "Istanbul"];
+// ADD THIS FUNCTION
 
+const handleSearch = (
+  value: string,
+  field: "from" | "to"
+) => {
+  setActiveField(field);
+
+  if (!value.trim()) {
+    setSearchResults([]);
+    return;
+  }
+
+  const filtered = airports.filter((airport) =>
+    airport.toLowerCase().includes(value.toLowerCase())
+  );
+
+  setSearchResults(filtered);
+};
   // Navigation tabs for flights page (no Flights button)
   const navTabs = [
     {
@@ -117,25 +176,25 @@ const router = useRouter();
           </p>
 
           {/* SEARCH PANEL */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-lg">
-            {/* TOP CONTROLS */}
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-              {/* ticket type */}
-              <div className="flex gap-2 bg-gray-100 rounded-full p-1">
-                {["One Way", "Round Trip"].map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setForm({ ...form, ticketType: type })}
-                    className={`px-5 py-2 rounded-full text-sm font-medium transition ${
-                      form.ticketType === type
-                        ? "bg-[#6c47ff] text-white shadow"
-                        : "text-gray-600 hover:text-gray-900"
-                    }`}
-                  >
-                    {type}
-                  </button>
-                ))}
-              </div>
+         <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-lg">
+  {/* TOP CONTROLS */}
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+    {/* ticket type */}
+    <div className="flex gap-2 bg-gray-100 rounded-full p-1 overflow-x-auto">
+      {["One Way", "Return", "Multi City"].map((type) => (
+        <button
+          key={type}
+          onClick={() => setForm({ ...form, ticketType: type })}
+          className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition ${
+            form.ticketType === type
+              ? "bg-[#6c47ff] text-white shadow"
+              : "text-gray-600 hover:text-gray-900"
+          }`}
+        >
+          {type}
+        </button>
+      ))}
+    </div>
 
               {/* class */}
               <div className="flex gap-2 bg-gray-100 rounded-full p-1">
@@ -162,307 +221,577 @@ const router = useRouter();
             </div>
 
             {/* MAIN INPUT ROW */}
-            <div className="grid md:grid-cols-5 gap-3 items-center mb-4">
-              {/* FROM */}
-              <div className="md:col-span-2 bg-gray-50 rounded-2xl px-5 py-4 border border-gray-200 focus-within:ring-2 focus-within:ring-[#6c47ff]">
-                <p className="text-xs text-gray-500 font-semibold">From</p>
-                <input
-                  value={form.from}
-                  onChange={(e) =>
-                    setForm({ ...form, from: e.target.value })
-                  }
-                  className="w-full text-base font-semibold outline-none bg-transparent text-gray-900"
-                  placeholder="City or airport"
-                />
+            {/* ========================= */}
+{/* ========================= */}
+{/* ONE WAY + RETURN */}
+{/* ========================= */}
+
+{/* ========================= */}
+{/* ONE WAY + RETURN */}
+{/* ========================= */}
+
+{form.ticketType !== "Multi City" && (
+  <div className="space-y-4">
+
+  {/* ROUTE CARD */}
+<div className="relative bg-gradient-to-br from-white to-[#faf8ff] border border-gray-200 rounded-[32px] p-4 md:p-6 shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-visible z-20">
+
+  {/* subtle glow */}
+  <div className="absolute top-0 right-0 w-52 h-52 bg-[#6c47ff]/5 rounded-full blur-3xl" />
+
+  <div className="relative z-30 grid md:grid-cols-5 gap-4 items-start overflow-visible">
+
+    {/* FROM */}
+    <div className="relative md:col-span-2 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 overflow-visible z-50">
+
+      <div className="flex items-center justify-between mb-1">
+        <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+          From
+        </p>
+
+        <span className="text-[9px] bg-[#f3efff] text-[#6c47ff] px-2 py-1 rounded-full font-semibold">
+          Origin
+        </span>
+      </div>
+
+      <p className="text-[11px] text-gray-400 mb-3">
+        Flying from
+      </p>
+
+      <input
+        value={form.from}
+        onChange={(e) => {
+          setForm({ ...form, from: e.target.value });
+          handleSearch(e.target.value, "from");
+        }}
+        onFocus={() => setActiveField("from")}
+        className="w-full bg-transparent outline-none text-xl font-bold text-gray-900 placeholder:text-gray-300"
+        placeholder="Lagos (LOS)"
+      />
+
+      {/* SUGGESTIONS */}
+      {activeField === "from" && searchResults.length > 0 && (
+        <div className="absolute left-0 right-0 top-[105%] bg-white border border-gray-200 rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.18)] overflow-hidden z-[99999] backdrop-blur-xl">
+
+          {searchResults.map((airport) => (
+            <button
+              key={airport}
+              onClick={() => {
+                setForm({
+                  ...form,
+                  from: airport,
+                });
+
+                setSearchResults([]);
+              }}
+              className="w-full text-left px-4 py-3 hover:bg-[#f6f3ff] transition text-sm font-medium text-gray-700 border-b border-gray-100 last:border-0"
+            >
+              {airport}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-3 mt-4">
+
+        <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={form.nearbyAirports}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                nearbyAirports: e.target.checked,
+              })
+            }
+            className="accent-[#6c47ff]"
+          />
+          Nearby airports
+        </label>
+
+        <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={form.directFlights}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                directFlights: e.target.checked,
+              })
+            }
+            className="accent-[#6c47ff]"
+          />
+          Direct only
+        </label>
+      </div>
+    </div>
+
+    {/* SWAP */}
+    <div className="flex justify-center">
+      <button
+        onClick={swapCities}
+        className="group h-12 w-12 rounded-2xl bg-gradient-to-br from-[#6c47ff] to-[#8b6dff] text-white flex items-center justify-center shadow-lg hover:scale-105 transition-all duration-300"
+      >
+        <MdSwapHoriz
+          size={22}
+          className="group-hover:rotate-180 transition-transform duration-500"
+        />
+      </button>
+    </div>
+
+    {/* TO */}
+    <div className="relative md:col-span-2 bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 overflow-visible z-50">
+
+      <div className="flex items-center justify-between mb-1">
+        <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+          To
+        </p>
+
+        <span className="text-[9px] bg-[#fff5dc] text-[#b88700] px-2 py-1 rounded-full font-semibold">
+          Destination
+        </span>
+      </div>
+
+      <p className="text-[11px] text-gray-400 mb-3">
+        Flying to
+      </p>
+
+      <input
+        value={form.to}
+        onChange={(e) => {
+          setForm({ ...form, to: e.target.value });
+          handleSearch(e.target.value, "to");
+        }}
+        onFocus={() => setActiveField("to")}
+        className="w-full bg-transparent outline-none text-xl font-bold text-gray-900 placeholder:text-gray-300"
+        placeholder="Dubai (DXB)"
+      />
+
+      {/* SUGGESTIONS */}
+      {activeField === "to" && searchResults.length > 0 && (
+        <div className="absolute left-0 right-0 top-[105%] bg-white border border-gray-200 rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.18)] overflow-hidden z-[99999] backdrop-blur-xl">
+
+          {searchResults.map((airport) => (
+            <button
+              key={airport}
+              onClick={() => {
+                setForm({
+                  ...form,
+                  to: airport,
+                });
+
+                setSearchResults([]);
+              }}
+              className="w-full text-left px-4 py-3 hover:bg-[#f6f3ff] transition text-sm font-medium text-gray-700 border-b border-gray-100 last:border-0"
+            >
+              {airport}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-3 mt-4">
+
+        <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={form.nearbyAirports}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                nearbyAirports: e.target.checked,
+              })
+            }
+            className="accent-[#6c47ff]"
+          />
+          Nearby airports
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+    {/* LOWER SECTION */}
+    <div
+      className={`grid gap-3 ${
+        form.ticketType === "Return"
+          ? "md:grid-cols-4"
+          : "md:grid-cols-3"
+      }`}
+    >
+
+      {/* DEPART */}
+      <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
+
+        <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
+          Depart
+        </p>
+
+        <input
+          type="date"
+          value={form.departure}
+          onChange={(e) =>
+            setForm({
+              ...form,
+              departure: e.target.value,
+            })
+          }
+          className="w-full bg-transparent outline-none text-base font-bold text-gray-900"
+        />
+      </div>
+
+      {/* RETURN */}
+      {form.ticketType === "Return" && (
+        <div className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
+
+          <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
+            Return
+          </p>
+
+          <input
+            type="date"
+            value={form.returnDate}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                returnDate: e.target.value,
+              })
+            }
+            className="w-full bg-transparent outline-none text-base font-bold text-gray-900"
+          />
+        </div>
+      )}
+
+      {/* TRAVELLERS */}
+      <div className="relative">
+        <button
+          onClick={() => setOpenTravelers(!openTravelers)}
+          className="w-full h-full bg-white border border-gray-200 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:shadow-md transition-all duration-300"
+        >
+          <div className="text-left">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">
+              Travellers
+            </p>
+
+            <p className="text-base font-bold text-gray-900">
+              {form.passengers.adults} Adult
+              {form.passengers.adults > 1 && "s"}
+              {form.passengers.children > 0 &&
+                `, ${form.passengers.children} Child`}
+            </p>
+
+            <p className="text-xs text-gray-500 mt-1">
+              {form.travelClass}
+            </p>
+          </div>
+
+          <MdKeyboardArrowDown
+            size={20}
+            className={`text-[#6c47ff] transition ${
+              openTravelers ? "rotate-180" : ""
+            }`}
+          />
+        </button>
+
+        {/* DROPDOWN */}
+        {openTravelers && (
+          <div className="absolute z-50 mt-2 w-full bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 space-y-5">
+
+            {/* ADULTS */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-semibold text-sm text-gray-900">
+                  Adults
+                </p>
+
+                <p className="text-xs text-gray-400">
+                  18+ years
+                </p>
               </div>
 
-              {/* SWAP */}
-              <div className="flex justify-center">
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={swapCities}
-                  className="h-12 w-12 rounded-full bg-[#6c47ff] text-white flex items-center justify-center hover:bg-[#5a3dd4] transition shadow-md"
-                >
-                  <MdSwapHoriz size={20} />
-                </button>
-              </div>
-
-              {/* TO */}
-              <div className="md:col-span-2 bg-gray-50 rounded-2xl px-5 py-4 border border-gray-200 focus-within:ring-2 focus-within:ring-[#6c47ff]">
-                <p className="text-xs text-gray-500 font-semibold">To</p>
-                <input
-                  value={form.to}
-                  onChange={(e) =>
-                    setForm({ ...form, to: e.target.value })
+                  onClick={() =>
+                    setForm((prev) => ({
+                      ...prev,
+                      passengers: {
+                        ...prev.passengers,
+                        adults: Math.max(
+                          1,
+                          prev.passengers.adults - 1
+                        ),
+                      },
+                    }))
                   }
-                  className="w-full text-base font-semibold outline-none bg-transparent text-gray-900"
-                  placeholder="City or airport"
-                />
+                  className="h-9 w-9 rounded-full bg-gray-100"
+                >
+                  -
+                </button>
+
+                <span className="font-bold w-5 text-center">
+                  {form.passengers.adults}
+                </span>
+
+                <button
+                  onClick={() =>
+                    setForm((prev) => ({
+                      ...prev,
+                      passengers: {
+                        ...prev.passengers,
+                        adults: prev.passengers.adults + 1,
+                      },
+                    }))
+                  }
+                  className="h-9 w-9 rounded-full bg-[#6c47ff] text-white"
+                >
+                  +
+                </button>
               </div>
             </div>
 
-            {/* DATES + PASSENGERS */}
-           <div
-  className={`grid gap-3 mb-6 ${
-    form.ticketType === "Round Trip"
-      ? "md:grid-cols-4"
-      : "md:grid-cols-3"
-  }`}
->
-              <div className="bg-gray-50 rounded-2xl px-5 py-4 border border-gray-200">
-                <p className="text-xs text-gray-500 font-semibold">Departure</p>
-                <input
-                  type="date"
-                  value={form.departure}
-                  onChange={(e) =>
-                    setForm({ ...form, departure: e.target.value })
-                  }
-                  className="w-full text-base font-semibold outline-none bg-transparent text-gray-900"
-                />
+            {/* CHILDREN */}
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-semibold text-sm text-gray-900">
+                  Children
+                </p>
+
+                <p className="text-xs text-gray-400">
+                  0 – 17 years
+                </p>
               </div>
 
-            {form.ticketType === "Round Trip" && (
-  <div className="bg-gray-50 rounded-2xl px-5 py-4 border border-gray-200">
-    <p className="text-xs text-gray-500 font-semibold">Return</p>
-    <input
-      type="date"
-      value={form.returnDate}
-      onChange={(e) =>
-        setForm({ ...form, returnDate: e.target.value })
-      }
-      className="w-full text-base font-semibold outline-none bg-transparent text-gray-900"
-    />
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() =>
+                    setForm((prev) => ({
+                      ...prev,
+                      passengers: {
+                        ...prev.passengers,
+                        children: Math.max(
+                          0,
+                          prev.passengers.children - 1
+                        ),
+                      },
+                    }))
+                  }
+                  className="h-9 w-9 rounded-full bg-gray-100"
+                >
+                  -
+                </button>
+
+                <span className="font-bold w-5 text-center">
+                  {form.passengers.children}
+                </span>
+
+                <button
+                  onClick={() =>
+                    setForm((prev) => ({
+                      ...prev,
+                      passengers: {
+                        ...prev.passengers,
+                        children: prev.passengers.children + 1,
+                      },
+                    }))
+                  }
+                  className="h-9 w-9 rounded-full bg-[#6c47ff] text-white"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setOpenTravelers(false)}
+              className="w-full bg-gradient-to-r from-[#6c47ff] to-[#8b6dff] text-white py-2.5 rounded-xl font-semibold"
+            >
+              Done
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* SEARCH */}
+      <div>
+        <button
+          onClick={() => {
+            router.push(
+              `/flights/results?from=${form.from}&to=${form.to}&departure=${form.departure}&return=${form.returnDate}&adults=${form.passengers.adults}&children=${form.passengers.children}`
+            );
+          }}
+          className="w-full h-full min-h-[78px] rounded-2xl bg-gradient-to-r from-[#6c47ff] via-[#7b5cff] to-[#8b6dff] text-white font-bold text-base shadow-[0_10px_35px_rgba(108,71,255,0.25)] hover:scale-[1.02] transition-all duration-300"
+        >
+          Search Flights
+        </button>
+      </div>
+    </div>
   </div>
 )}
 
-              {/* PASSENGERS */}
-{/* PASSENGERS */}
-<div className="relative">
-  <button
-    onClick={() => setOpenTravelers(!openTravelers)}
-    className="w-full bg-gray-50 rounded-2xl px-5 py-4 border border-gray-200 flex items-center justify-between hover:bg-gray-100 transition"
-  >
-    <div>
-      <p className="text-xs text-gray-500 font-semibold">
-        Travelers
-      </p>
-      <p className="text-base font-semibold text-gray-900">
-        {form.passengers.adults} Adult
-        {form.passengers.adults > 1 && "s"}
-        {form.passengers.children > 0 &&
-          `, ${form.passengers.children} Child${
-            form.passengers.children > 1 ? "ren" : ""
-          }`}
-      </p>
-    </div>
+{/* ========================= */}
+{/* MULTI CITY */}
+{/* ========================= */}
 
-    <MdKeyboardArrowDown
-      size={22}
-      className={`transition ${
-        openTravelers ? "rotate-180" : ""
-      }`}
-    />
-  </button>
+{form.ticketType === "Multi City" && (
+  <div className="space-y-4">
 
-  {/* DROPDOWN */}
-  {openTravelers && (
-    <div className="absolute z-50 mt-2 w-full bg-white rounded-2xl shadow-xl border p-5 space-y-5 animate-in fade-in zoom-in-95">
-      
-      {/* INFO TEXT */}
-      <p className="text-xs text-gray-500">
-        Ages are required for children to ensure accurate pricing.
-      </p>
-
-      {/* ADULTS */}
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="text-sm font-medium text-gray-800">
-            Adults <span className="text-xs text-gray-500">(18+)</span>
-          </p>
-        </div>
-
-        <div className="flex gap-2 items-center">
-          <button
-            onClick={() =>
-              setForm((prev) => ({
-                ...prev,
-                passengers: {
-                  ...prev.passengers,
-                  adults: Math.max(1, prev.passengers.adults - 1),
-                },
-              }))
-            }
-            className="h-8 w-8 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-          >
-            -
-          </button>
-
-          <span className="w-6 text-center">
-            {form.passengers.adults}
-          </span>
-
-          <button
-            onClick={() =>
-              setForm((prev) => ({
-                ...prev,
-                passengers: {
-                  ...prev.passengers,
-                  adults: prev.passengers.adults + 1,
-                },
-              }))
-            }
-            className="h-8 w-8 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-      {/* CHILDREN */}
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="text-sm font-medium text-gray-800">
-            Children <span className="text-xs text-gray-500">(0–17)</span>
-          </p>
-        </div>
-
-        <div className="flex gap-2 items-center">
-          <button
-            onClick={() => {
-              const newCount = Math.max(0, form.passengers.children - 1);
-              setForm((prev) => ({
-                ...prev,
-                passengers: {
-                  ...prev.passengers,
-                  children: newCount,
-                  childrenAges: prev.passengers.childrenAges.slice(0, newCount),
-                },
-              }));
-            }}
-            className="h-8 w-8 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-          >
-            -
-          </button>
-
-          <span className="w-6 text-center">
-            {form.passengers.children}
-          </span>
-
-          <button
-            onClick={() => {
-              const newCount = form.passengers.children + 1;
-              setForm((prev) => ({
-                ...prev,
-                passengers: {
-                  ...prev.passengers,
-                  children: newCount,
-                },
-              }));
-            }}
-            className="h-8 w-8 rounded-full bg-gray-200 hover:bg-gray-300 transition"
-          >
-            +
-          </button>
-        </div>
-      </div>
-
-      {/* CHILD AGES */}
-   
-      {/* DONE BUTTON */}
-      <button
-        onClick={() => setOpenTravelers(false)}
-        className="w-full mt-2 bg-gradient-to-r from-[#6c47ff] to-[#5a3dd4] text-white py-2.5 rounded-xl font-semibold hover:opacity-90 transition"
+    {form.multiFlights.map((flight, index) => (
+      <div
+        key={index}
+        className="bg-gradient-to-br from-white to-[#faf8ff] border border-gray-200 rounded-[28px] p-4 shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
       >
-        Done
-      </button>
-    </div>
-  )}
-</div>
 
-              {/* SEARCH BUTTON */}
-          <div>
+     <div className="flex items-center justify-between mb-4">
+  <div>
+    <p className="text-xs uppercase tracking-widest text-gray-400 font-bold">
+      Flight {index + 1}
+    </p>
+
+    <h3 className="text-lg font-bold text-gray-900">
+      Multi-city route
+    </h3>
+  </div>
+
+  <div className="flex items-center gap-2">
+
+    {/* DELETE BUTTON */}
+   {/* DELETE BUTTON */}
+{index >= 2 && (
   <button
     onClick={() => {
-      router.push(
-        `/flights/results?from=${form.from}&to=${form.to}&departure=${form.departure}&return=${form.returnDate}&adults=${form.passengers.adults}&children=${form.passengers.children}`
+      const updated = form.multiFlights.filter(
+        (_, i) => i !== index
       );
+
+      setForm({
+        ...form,
+        multiFlights: updated,
+      });
     }}
-    className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#6c47ff] to-[#5a3dd4] text-white font-bold text-base shadow-lg hover:opacity-90 transition"
+    className="h-10 w-10 rounded-2xl bg-[#fff5dc] text-[#b88700] flex items-center justify-center hover:scale-105 hover:bg-[#ffefbd] transition-all duration-300 shadow-sm"
   >
-    Search
+    <MdDeleteOutline size={20} />
   </button>
+)}
+
+    <div className="h-10 w-10 rounded-2xl bg-[#f3efff] flex items-center justify-center text-[#6c47ff] font-bold">
+      {index + 1}
+    </div>
+  </div>
 </div>
-            </div>
 
-            {/* POPULAR DESTINATIONS */}
-            <div>
-              <p className="text-xs text-gray-500 font-semibold mb-3">
-                Popular destinations
-              </p>
+        {/* INPUTS */}
+        <div className="grid md:grid-cols-3 gap-3">
 
-              <div className="flex flex-wrap gap-2">
-                {popular.map((city) => (
-                  <button
-                    key={city}
-                    onClick={() => setForm({ ...form, to: city })}
-                    className="px-4 py-2 rounded-full bg-gray-100 text-sm font-medium text-gray-700 hover:bg-[#6c47ff] hover:text-white transition"
-                  >
-                    {city}
-                  </button>
-                ))}
-              </div>
-            </div>
+          {/* FROM */}
+          <div className="bg-white rounded-2xl p-4 border border-gray-100">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
+              From
+            </p>
+
+            <input
+              value={flight.from}
+              onChange={(e) => {
+                const updated = [...form.multiFlights];
+                updated[index].from = e.target.value;
+
+                setForm({
+                  ...form,
+                  multiFlights: updated,
+                });
+              }}
+              className="w-full bg-transparent outline-none text-lg font-bold"
+              placeholder="Lagos (LOS)"
+            />
+          </div>
+
+          {/* TO */}
+          <div className="bg-white rounded-2xl p-4 border border-gray-100">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
+              To
+            </p>
+
+            <input
+              value={flight.to}
+              onChange={(e) => {
+                const updated = [...form.multiFlights];
+                updated[index].to = e.target.value;
+
+                setForm({
+                  ...form,
+                  multiFlights: updated,
+                });
+              }}
+              className="w-full bg-transparent outline-none text-lg font-bold"
+              placeholder="Dubai (DXB)"
+            />
+          </div>
+
+          {/* DATE */}
+          <div className="bg-white rounded-2xl p-4 border border-gray-100">
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-2">
+              Depart
+            </p>
+
+            <input
+              type="date"
+              value={flight.departure}
+              onChange={(e) => {
+                const updated = [...form.multiFlights];
+                updated[index].departure = e.target.value;
+
+                setForm({
+                  ...form,
+                  multiFlights: updated,
+                });
+              }}
+              className="w-full bg-transparent outline-none text-base font-bold"
+            />
           </div>
         </div>
       </div>
+    ))}
+
+    {/* ACTIONS */}
+    <div className="grid md:grid-cols-2 gap-3">
+
+      {/* ADD FLIGHT */}
+      <button
+        onClick={() =>
+          setForm({
+            ...form,
+            multiFlights: [
+              ...form.multiFlights,
+              {
+                from: "",
+                to: "",
+                departure: "",
+              },
+            ],
+          })
+        }
+        className="h-16 border-2 border-dashed border-[#6c47ff] rounded-2xl font-semibold text-[#6c47ff] hover:bg-[#f6f3ff] transition-all"
+      >
+        + Add another flight
+      </button>
+
+      {/* SEARCH */}
+      <button
+        className="h-16 rounded-2xl bg-gradient-to-r from-[#6c47ff] via-[#7b5cff] to-[#8b6dff] text-white font-bold text-base shadow-[0_10px_35px_rgba(108,71,255,0.25)] hover:scale-[1.02] transition-all duration-300"
+      >
+        Search Multi-city
+      </button>
+    </div>
+  </div>
+)}  
+ </div>
+    </div>
+  </div>
+    
+      <Hero />
 <DealsCarousel />
       {/* NAVIGATION BUTTONS - Hotels, Cars, Explore (no Flights tab) */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-5 py-6 grid md:grid-cols-3 gap-4">
-          {navTabs.map((tab) => {
-            const isActive = activeTab === tab.label;
-
-            return (
-              <Link
-                key={tab.label}
-                href={tab.href}
-                className={`group flex items-center gap-4 p-6 rounded-2xl border transition-all duration-300
-                  ${
-                    isActive
-                      ? "bg-gradient-to-r from-[#6c47ff] to-[#5a3dd4] text-white border-transparent shadow-lg"
-                      : "bg-gray-50 hover:bg-white border-gray-200 hover:shadow-md"
-                  }`}
-              >
-                {/* ICON */}
-                <div
-                  className={`h-14 w-14 flex items-center justify-center rounded-xl text-2xl transition
-                    ${
-                      isActive
-                        ? "bg-white/20"
-                        : "bg-white text-[#6c47ff] group-hover:bg-[#6c47ff] group-hover:text-white"
-                    }`}
-                >
-                  <tab.icon />
-                </div>
-
-                {/* TEXT */}
-                <div>
-                  <p className="text-lg font-bold">{tab.label}</p>
-                  <p
-                    className={`text-sm ${
-                      isActive ? "text-white/80" : "text-gray-500"
-                    }`}
-                  >
-                    {tab.label === "Hotels" && "Find luxury stays and top-rated hotels"}
-                    {tab.label === "Cars" && "Rent vehicles at top destinations"}
-                    {tab.label === "Explore everywhere" &&
-                      "Discover curated travel experiences"}
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+    
 
       {/* HERO IMAGE SECTION */}
       <div className="max-w-6xl mx-auto px-5 py-6">
