@@ -198,7 +198,7 @@ const handleSearch = (
 
               {/* class */}
               <div className="flex gap-2 bg-gray-100 rounded-full p-1">
-                {["Economy", "Business", "First"].map((c) => (
+                {["Economy", "Premium Economy", "Business", "First"].map((c) => (
                   <button
                     key={c}
                     onClick={() => setForm({ ...form, travelClass: c })}
