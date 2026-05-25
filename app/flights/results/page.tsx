@@ -14,8 +14,7 @@ import {
   MdKeyboardArrowDown,
 } from "react-icons/md";
 
-
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 // ============================================================================
@@ -689,13 +688,33 @@ export default function FlightResultsPage(): ReactNode {
   setSelectedFlight(flight);
 };
 const router = useRouter();
-  const handleSortChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSortBy(e.target.value as "price" | "duration" | "rating" | "departure");
-    },
-    []
-  );
+const searchParams = useSearchParams();
 
+const ticketType = searchParams.get("ticketType");
+
+const from = searchParams.get("from");
+const to = searchParams.get("to");
+
+const departure = searchParams.get("departure");
+const returnDate = searchParams.get("return");
+
+const adults = searchParams.get("adults");
+const children = searchParams.get("children");
+
+const multiFlights =
+  ticketType === "multi-city"
+    ? JSON.parse(
+        decodeURIComponent(searchParams.get("flights") || "[]")
+      )
+    : [];
+const handleSortChange = useCallback(
+  (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortBy(
+      e.target.value as "price" | "duration" | "rating" | "departure"
+    );
+  },
+  []
+);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -705,16 +724,38 @@ const router = useRouter();
       <div className="bg-white border-b border-gray-200 sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-5 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Flights to Dubai
-            </h1>
+           <h1 className="text-2xl font-bold text-gray-900">
+  {ticketType === "multi-city"
+    ? "Multi-city Flights"
+    : `Flights from ${from} to ${to}`}
+</h1>
             <p className="text-sm text-gray-500">
               June 15, 2024 • 1 Passenger
             </p>
           </div>
 
-         <button
-  onClick={() => router.back()}
+        <button
+  onClick={() => {
+    const lastSearch = sessionStorage.getItem("lastFlightSearch");
+
+    if (lastSearch) {
+      const data = JSON.parse(lastSearch);
+
+      const query = new URLSearchParams({
+        ticketType: data.ticketType,
+        from: data.from || "",
+        to: data.to || "",
+        departure: data.departure || "",
+        return: data.returnDate || "",
+        adults: String(data.passengers?.adults || 1),
+        children: String(data.passengers?.children || 0),
+      }).toString();
+
+      router.push(`/home?${query}`);
+    } else {
+      router.push("/home");
+    }
+  }}
   className="px-4 py-2 text-sm font-medium text-[#6c47ff] border border-[#6c47ff] rounded-full hover:bg-[#6c47ff]/5 transition"
 >
   ✏️ Edit search

@@ -8,6 +8,8 @@ import Hero from "@/components/Hero";
 import Footer from "@/components/footer";
 import DealsCarousel from "@/components/DealsCarousel";
 import { useRouter } from "next/navigation";
+
+import { useEffect } from "react";
 export default function HomePage() {
  const [form, setForm] = useState({
   from: "Lagos",
@@ -115,7 +117,18 @@ const handleSearch = (
       description: "Discover curated travel experiences",
     },
   ];
+useEffect(() => {
+  const saved = sessionStorage.getItem("lastFlightSearch");
 
+  if (saved) {
+    const parsed = JSON.parse(saved);
+
+    setForm((prev) => ({
+      ...prev,
+      ...parsed,
+    }));
+  }
+}, []);
   const faqs = [
     {
       question: "What is Luxtravelerz?",
@@ -699,12 +712,29 @@ const handleSearch = (
       {/* SEARCH */}
       <div>
         <button
-          onClick={() => {
-            router.push(
-              `/flights/results?from=${form.from}&to=${form.to}&departure=${form.departure}&return=${form.returnDate}&adults=${form.passengers.adults}&children=${form.passengers.children}`
-            );
-          }}
-          className="w-full h-full min-h-[78px] rounded-2xl bg-gradient-to-r from-[#6c47ff] via-[#7b5cff] to-[#8b6dff] text-white font-bold text-base shadow-[0_10px_35px_rgba(108,71,255,0.25)] hover:scale-[1.02] transition-all duration-300"
+       onClick={() => {
+  const searchData = {
+    ticketType: form.ticketType,
+    from: form.from,
+    to: form.to,
+    departure: form.departure,
+    returnDate: form.returnDate,
+    passengers: form.passengers,
+    travelClass: form.travelClass,
+    multiFlights: form.multiFlights,
+  };
+
+  // ✅ SAVE HERE
+  sessionStorage.setItem(
+    "lastFlightSearch",
+    JSON.stringify(searchData)
+  );
+
+  router.push(
+    `/flights/results?ticketType=${form.ticketType}&from=${form.from}&to=${form.to}&departure=${form.departure}&return=${form.returnDate}&adults=${form.passengers.adults}&children=${form.passengers.children}`
+  );
+}}
+className="w-full h-full min-h-[78px] rounded-2xl bg-gradient-to-r from-[#6c47ff] via-[#7b5cff] to-[#8b6dff] text-white font-bold text-base shadow-[0_10px_35px_rgba(108,71,255,0.25)] hover:scale-[1.02] transition-all duration-300"
         >
           Search Flights
         </button>
@@ -861,11 +891,34 @@ const handleSearch = (
       </button>
 
       {/* SEARCH */}
-      <button
-        className="h-16 rounded-2xl bg-gradient-to-r from-[#6c47ff] via-[#7b5cff] to-[#8b6dff] text-white font-bold text-base shadow-[0_10px_35px_rgba(108,71,255,0.25)] hover:scale-[1.02] transition-all duration-300"
-      >
-        Search Multi-city
-      </button>
+   {/* SEARCH */}
+<button
+ onClick={() => {
+  const searchData = {
+    ticketType: form.ticketType,
+    from: form.from,
+    to: form.to,
+    departure: form.departure,
+    returnDate: form.returnDate,
+    passengers: form.passengers,
+    travelClass: form.travelClass,
+    multiFlights: form.multiFlights,
+  };
+
+  // ✅ SAVE HERE
+  sessionStorage.setItem(
+    "lastFlightSearch",
+    JSON.stringify(searchData)
+  );
+
+  router.push(
+    `/flights/results?ticketType=${form.ticketType}&from=${form.from}&to=${form.to}&departure=${form.departure}&return=${form.returnDate}&adults=${form.passengers.adults}&children=${form.passengers.children}`
+  );
+}}
+  className="h-16 rounded-2xl bg-gradient-to-r from-[#6c47ff] via-[#7b5cff] to-[#8b6dff] text-white font-bold text-base shadow-[0_10px_35px_rgba(108,71,255,0.25)] hover:scale-[1.02] transition-all duration-300"
+>
+  Search Multi-city
+</button>
     </div>
   </div>
 )}  
